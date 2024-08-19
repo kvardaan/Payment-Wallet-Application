@@ -9,9 +9,9 @@ datasource db {
 
 model User {
   id                    Int                         @id @default(autoincrement())
-  email                 String?                     @unique
-  password              String
-  name                  String?
+  externalId            String                      @unique
+  email                 String                      @unique
+  name                  String
   number                String                      @unique
   OnRampTransaction     OnRampTransaction[]
   Balance               Balance[]
@@ -23,7 +23,6 @@ model Merchant {
   id                    Int                          @id @default(autoincrement())
   email                 String                       @unique
   name                  String?
-  auth_type             AuthType
 }
 
 model OnRampTransaction {
@@ -53,11 +52,6 @@ model Transfer {
   fromUser              User                          @relation(name: "FromUserRelation", fields: [fromUserId], references: [id])
   toUserId              Int
   toUser                User                          @relation(name: "ToUserRelation", fields: [toUserId], references: [id])
-}
-
-enum AuthType {
-  Google
-  Github
 }
 
 enum OnRampStatus {
