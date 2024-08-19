@@ -1,34 +1,36 @@
-"use client";
+'use client'
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from 'next/navigation'
 
-import { cn } from "../../lib/utils";
-import { Button } from "./button";
+import { cn } from '../../lib/utils'
+import { Button } from './button'
 
 interface SideBarItemProps {
-	href: string;
-	title: string;
-	icon: React.ReactNode;
+	href: string
+	title: string
+	icon: React.ReactNode
+	children?: React.ReactNode
 }
 
-const SideBarItem = ({ href, title, icon }: SideBarItemProps) => {
-	const router = useRouter();
-	const pathname = usePathname();
-	const selected = pathname === href;
+const SideBarItem = ({ href, title, icon, children }: SideBarItemProps) => {
+	const router = useRouter()
+	const pathname = usePathname()
+	const selected = pathname === href
 
 	return (
 		<Button
 			variant="ghost"
 			onClick={() => router.push(href)}
 			className={cn(
-				"flex flex-row items-center justify-start gap-x-2 max-w-40 bg-gray-50 hover:bg-gray-200",
-				selected && "bg-gray-200"
+				'w-full flex flex-row items-center justify-start gap-x-2 bg-gray-50 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/25',
+				selected && 'bg-gray-200 dark:bg-white/25'
 			)}
 		>
 			{icon}
 			{title}
+			{children}
 		</Button>
-	);
-};
+	)
+}
 
-export { SideBarItem };
+export { SideBarItem }
