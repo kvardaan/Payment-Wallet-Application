@@ -21,5 +21,10 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "framer-motion": "^11.3.24",
+    "mini-svg-data-uri": "^1.4.4",
+    "sonner": "^1.5.0"
+  }
 }
