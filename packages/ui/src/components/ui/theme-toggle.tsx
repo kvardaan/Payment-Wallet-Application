@@ -1,7 +1,7 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import { Moon, Sun } from 'lucide-react'
+import { Sun, Moon, Monitor } from 'lucide-react'
 
 import {
 	DropdownMenu,
@@ -28,13 +28,26 @@ export const ThemeToggle = () => {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="dark:bg-black dark:border-white/50">
-				<DropdownMenuItem onClick={() => setTheme('light')} className="dark:hover:bg-white/15">
+				<DropdownMenuItem
+					onClick={() => setTheme('light')}
+					className="flex items-center justify-start gap-x-3 dark:hover:bg-white/15"
+				>
+					<Sun className="h-4 w-4" />
 					Light
 				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme('dark')} className="dark:hover:bg-white/15">
+				<DropdownMenuItem
+					onClick={() => setTheme('dark')}
+					className="flex items-center justify-start gap-x-3 dark:hover:bg-white/15"
+				>
+					<Moon className="h-4 w-4" />
 					Dark
 				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme('system')} className="dark:hover:bg-white/15">
+
+				<DropdownMenuItem
+					onClick={() => setTheme('system')}
+					className="flex items-center justify-start gap-x-3 dark:hover:bg-white/15"
+				>
+					<Monitor className="h-4 w-4" />
 					System
 				</DropdownMenuItem>
 			</DropdownMenuContent>
