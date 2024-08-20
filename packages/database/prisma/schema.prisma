@@ -14,21 +14,32 @@ model User {
   name                  String
   number                String                      @unique
   OnRampTransaction     OnRampTransaction[]
-  Balance               Balance[]
+  BankAccount           BankAccount[]
+  Balance               Balance?
   sentTransfers         Transfer[]                  @relation(name: "FromUserRelation")
   receivedTransfers     Transfer[]                  @relation(name: "ToUserRelation")
+}
+
+// User's Bank Account(s)
+model BankAccount {
+  id                    Int                         @id @default(autoincrement())
+  bankName              String
+  accountNumber         Int                         @unique
+  userId                Int                         
+  user                  User                        @relation(fields: [userId], references: [id])
 }
 
 model Merchant {
   id                    Int                          @id @default(autoincrement())
   email                 String                       @unique
-  name                  String?
+  name                  String
 }
 
+// On Ramp Transactions / Wallet Additions
 model OnRampTransaction {
   id                    Int                           @id @default(autoincrement())
   userId                Int
-  status                OnRampStatus
+  status                OnRampStatus                  @default(Processing)
   token                 String                        @unique
   provider              String
   amount                Int
@@ -36,6 +47,7 @@ model OnRampTransaction {
   user                  User                          @relation(fields: [userId], references: [id])
 }
 
+// Wallet Balance
 model Balance {
   id                    Int                           @id @default(autoincrement())
   userId                Int                           @unique
@@ -44,6 +56,7 @@ model Balance {
   user                  User                          @relation(fields: [userId], references: [id])
 }
 
+// Transfers to others
 model Transfer {
   id                    Int                           @id @default(autoincrement())
   amount                Int
