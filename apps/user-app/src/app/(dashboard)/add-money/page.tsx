@@ -1,8 +1,8 @@
 import { Heading } from '@repo/ui/heading'
 import { BalanceCard } from '@/components/dashboard/balance-card'
 import { AddMoneyCard } from '@/components/dashboard/add-money-card'
-import { getUserBalance, getUserBankAccounts, getUserOnRampTransactions } from '@/lib/user'
 import { OnRampTransactionsCard } from '@/components/dashboard/on-ramp-transactions-card'
+import { getUserBalance, getUserBankAccounts, getUserOnRampTransactions } from '@/lib/user'
 
 export default async function Page() {
 	const balances = await getUserBalance()

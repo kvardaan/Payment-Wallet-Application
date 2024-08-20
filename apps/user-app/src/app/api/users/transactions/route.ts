@@ -32,17 +32,17 @@ export async function POST(request: NextRequest) {
 			url: `${process.env.BANK_WEBHOOK_API}/web-hook`,
 			data: {
 				userId,
-				amount: 10000,
+				amount,
 				token,
 			},
 		})
 
-		return NextResponse.json(
-			{ message: 'Transaction started successfully!' },
-			{ status: bankWebHookResponse.data.status }
-		)
+		return NextResponse.json({
+			message: 'Transaction started successfully!',
+			status: bankWebHookResponse.data.status,
+		})
 	} catch (error) {
-		console.log(error)
+		console.log(`API: "${error}`)
 
 		return NextResponse.json(
 			{ error: 'An error occured while starting the transaction.' },

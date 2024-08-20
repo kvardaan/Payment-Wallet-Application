@@ -4,26 +4,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@repo/db'
 import { getUserId } from '@/lib/user'
 
-export async function GET() {
-	const userId = await getUserId()
-	if (!userId)
-		return NextResponse.json({ error: 'Unauthorized' }, { status: HttpStatusCode.Unauthorized })
-
-	try {
-		const response = await prisma.bankAccount.findMany({
-			where: { userId },
-		})
-
-		return NextResponse.json(response)
-	} catch (error) {
-		console.log('API: ', error)
-		return NextResponse.json(
-			{ error: 'An error occurred while fetching the Bank Account(s).' },
-			{ status: HttpStatusCode.InternalServerError }
-		)
-	}
-}
-
 export async function POST(request: NextRequest) {
 	const userId = await getUserId()
 	const body = await request.json()
@@ -56,7 +36,7 @@ export async function POST(request: NextRequest) {
 		}
 
 		// Handle other errors
-		console.log('API: ', error)
+		console.log(`API: "${error}`)
 		return NextResponse.json(
 			{ error: 'An error occurred while adding the Bank Account.' },
 			{ status: HttpStatusCode.InternalServerError }

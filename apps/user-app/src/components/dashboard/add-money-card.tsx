@@ -1,6 +1,7 @@
 'use client'
 
 import { z } from 'zod'
+import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -15,7 +16,7 @@ const FormSchema = z.object({
 	amount: z.string().min(1, {
 		message: 'Amount must be at least ₹ 1.00',
 	}),
-	bank: z.string({ required_error: 'Please select a bank to continue!' }),
+	bankName: z.string({ required_error: 'Please select a bank to continue!' }),
 })
 
 interface AddMoneyCardProps {
@@ -31,18 +32,30 @@ export const AddMoneyCard = ({ userBankAccounts }: AddMoneyCardProps) => {
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			amount: '',
-			bank: userBankAccounts[0]?.bankName,
+			bankName: userBankAccounts[0]?.bankName,
 		},
 	})
 
-	function onSubmit(data: z.infer<typeof FormSchema>) {
-		toast('You submitted the following values:', {
-			description: (
-				<pre className="mt-2 rounded-md bg-slate-950 p-4">
-					<code className="text-white">{JSON.stringify(data, null, 2)}</code>
-				</pre>
-			),
-		})
+	async function onSubmit(data: z.infer<typeof FormSchema>) {
+		try {
+			const response = await axios({
+				method: 'post',
+				url: '/api/users/transactions',
+				data: {
+					amount: data.amount,
+					provider: data.bankName,
+				},
+			})
+			toast.success('Transaction started successfully!', {
+				description: `${new Date().toLocaleString()}`,
+			})
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				toast.error(error.response?.data?.error || 'Unknown error')
+			} else {
+				toast.error('An unexpected error occurred. Please try again.')
+			}
+		}
 	}
 
 	return (
@@ -71,7 +84,7 @@ export const AddMoneyCard = ({ userBankAccounts }: AddMoneyCardProps) => {
 
 							{/* Bank */}
 							<FormField
-								name="bank"
+								name="bankName"
 								control={form.control}
 								render={({ field }) => (
 									<FormItem>
