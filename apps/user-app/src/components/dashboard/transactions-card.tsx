@@ -4,28 +4,31 @@ import { ArrowDownLeft, ArrowUpRight, RefreshCw } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/table'
 
 interface TransactionsCardProps {
-	transactions: {
-		id: number
-		// timestamp: Date;
-		timestamp: string
-		amount: number
-		type: string
-		fromUserId?: number
-		toUserId?: number
-		toUserName?: string
-		fromUserName?: string
-	}[]
+	transactions:
+		| {
+				id: number
+				timestamp: Date
+				amount: number
+				type: string
+				fromUserId?: number
+				toUserId?: number
+				toUserName?: string
+				fromUserName?: string
+		  }[]
+		| null
 }
 
 export const TransactionsCard = ({ transactions }: TransactionsCardProps) => {
+	console.log(transactions)
+
 	return (
 		<Card
 			id="transactions"
 			className="flex flex-col shadow-sm mt-4 px-2 items-center justify-center w-full border dark:bg-black dark:border-white/25 dark:text-white"
 		>
 			<CardContent className="w-full p-2 space-y-2 m-2 rounded-md shadow-sm border bg-gray-50 dark:bg-black dark:border dark:border-white/25">
-				{!transactions.length ? (
-					<p className="text-gray-500">No recent transactions</p>
+				{!transactions?.length ? (
+					<p className="text-gray-500 text-center">No recent transactions</p>
 				) : (
 					<Table>
 						<TableHeader>
@@ -42,7 +45,7 @@ export const TransactionsCard = ({ transactions }: TransactionsCardProps) => {
 							{transactions.map((t) => (
 								<TableRow key={t.id}>
 									<TableCell className="text-center w-1/12 p-2">
-										{t.type === 'send' ? (
+										{t.type === 'sent' ? (
 											<span className="flex items-center justify-center bg-red-500 text-white font-medium p-1 rounded-md">
 												<ArrowUpRight />
 											</span>
@@ -53,10 +56,10 @@ export const TransactionsCard = ({ transactions }: TransactionsCardProps) => {
 										)}
 									</TableCell>
 									<TableCell className="text-center p-2">
-										{formatDateTime(t.timestamp).split(',')[0]}
+										{formatDateTime(t.timestamp.toLocaleString()).split(',')[0]}
 									</TableCell>
 									<TableCell className="text-center p-2">
-										{formatDateTime(t.timestamp).split(',')[1]}
+										{formatDateTime(t.timestamp.toLocaleString()).split(',')[1]}
 									</TableCell>
 									<TableCell className="text-center w-1/5 p-2">{t.id}</TableCell>
 									<TableCell className="text-center w-1/5 p-2">

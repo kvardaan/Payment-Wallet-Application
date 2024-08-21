@@ -1,12 +1,13 @@
 'use client'
 
 import * as z from 'zod'
+import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Input } from '@repo/ui/input'
-import { Button } from '@repo/ui/button'
 import { toast } from '@repo/ui/sonner'
+import { Button } from '@repo/ui/button'
 import { Card, CardContent } from '@repo/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@repo/ui/form'
 
@@ -36,7 +37,28 @@ export const TransferCard = () => {
 		},
 	})
 
-	function onSubmit(data: z.infer<typeof FormSchema>) {
+	async function onSubmit(data: z.infer<typeof FormSchema>) {
+		try {
+			const response = await axios({
+				method: 'post',
+				url: '/api/users/transfers',
+				data: {
+					amount: data.amount,
+					transferToNumber: `+91${data.number}`,
+				},
+			})
+
+			toast.success('Money sent successfully!', {
+				description: `${new Date().toLocaleDateString()}`,
+			})
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				toast.error(error.response?.data?.error || 'Unknown error')
+			} else {
+				toast.error('An unexpected error occurred. Please try again.')
+			}
+		}
+
 		toast('You submitted the following values:', {
 			description: (
 				<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">

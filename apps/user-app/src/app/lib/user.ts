@@ -63,3 +63,52 @@ export async function getUserOnRampTransactions() {
 		token: transaction.token,
 	}))
 }
+
+export async function getUserTransfers() {
+	const userId = await getUserId()
+
+	const userTransfers = await prisma.user.findUnique({
+		where: { id: userId },
+		include: {
+			sentTransfers: {
+				include: {
+					toUser: {
+						select: {
+							id: true,
+							name: true,
+						},
+					},
+				},
+			},
+			receivedTransfers: {
+				include: {
+					fromUser: {
+						select: {
+							id: true,
+							name: true,
+						},
+					},
+				},
+			},
+		},
+	})
+
+	if (!userTransfers) return null
+
+	const allUserTransfers = [
+		...userTransfers.sentTransfers.map((transfer) => ({
+			...transfer,
+			amount: transfer.amount,
+			type: 'sent',
+			toUserName: transfer.toUser.name,
+		})),
+		...userTransfers.receivedTransfers.map((transfer) => ({
+			...transfer,
+			amount: transfer.amount,
+			type: 'received',
+			fromUserName: transfer.fromUser.name,
+		})),
+	]
+
+	return allUserTransfers
+}

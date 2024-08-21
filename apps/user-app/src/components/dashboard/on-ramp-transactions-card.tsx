@@ -59,7 +59,7 @@ export const OnRampTransactionsCard = ({ transactions }: OnRampTransactionsCardP
 										)}
 									</TableCell>
 									<TableCell className="text-center w-2/5">{t.time.toDateString()}</TableCell>
-									<TableCell className="text-center w-1/5">{t.token}</TableCell>
+									<TableCell className="truncate text-center w-1/5">{t.token}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
