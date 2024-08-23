@@ -1,19 +1,12 @@
+import { ArrowDownLeft, ArrowUpRight, RefreshCw } from 'lucide-react'
+
 import { formatDateTime } from '@/lib/utils'
 import { Card, CardContent } from '@repo/ui/card'
-import { ArrowDownLeft, ArrowUpRight, RefreshCw } from 'lucide-react'
+import { Transfer } from '@/components/dashboard/columns'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/table'
 
-type Transaction = {
-	id: number
-	amount: number
-	timestamp: Date
-	type: 'sent' | 'received'
-	otherPartyId: number
-	otherPartyName: string
-}
-
 interface TransactionsCardProps {
-	transactions: Transaction[] | null
+	transactions: Transfer[] | null
 }
 
 export const TransactionsCard = ({ transactions }: TransactionsCardProps) => {
@@ -38,7 +31,7 @@ export const TransactionsCard = ({ transactions }: TransactionsCardProps) => {
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{transactions.map((t: Transaction) => (
+							{transactions.map((t: Transfer) => (
 								<TableRow key={t.id}>
 									<TableCell className="text-center w-1/12 p-2">
 										{t.type === 'sent' ? (
@@ -53,12 +46,14 @@ export const TransactionsCard = ({ transactions }: TransactionsCardProps) => {
 									</TableCell>
 									<TableCell className="text-center p-2">
 										{formatDateTime(t.timestamp.toLocaleString()).split(',')[0]}
+										{/* {t.date} */}
 									</TableCell>
 									<TableCell className="text-center p-2">
 										{formatDateTime(t.timestamp.toLocaleString()).split(',')[1]}
+										{/* {t.time} */}
 									</TableCell>
 									<TableCell className="text-center w-1/5 p-2">{t.id}</TableCell>
-									<TableCell className="text-center w-1/5 p-2">{t.otherPartyName}</TableCell>
+									<TableCell className="text-center w-1/5 p-2">{t.name}</TableCell>
 									<TableCell className="text-center w-1/5 p-2">₹{t.amount / 100}</TableCell>
 								</TableRow>
 							))}

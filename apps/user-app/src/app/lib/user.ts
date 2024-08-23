@@ -1,6 +1,7 @@
 import { auth } from '@clerk/nextjs/server'
 
 import prisma from '@repo/db'
+import { formatDateTime } from './utils'
 
 export async function getUserId() {
 	const { userId } = auth()
@@ -93,26 +94,30 @@ export async function getUserTransfers() {
 		},
 	})
 
-	if (!userTransfers) return null
+	if (!userTransfers) return
 
-	const allTransfers = [
+	return [
 		...userTransfers.sentTransfers.map((transfer) => ({
 			id: transfer.id,
 			amount: transfer.amount,
+			date: formatDateTime(transfer.timestamp.toLocaleString()).split(',')[0] as unknown as Date,
+			time: formatDateTime(transfer.timestamp.toLocaleString()).split(',')[1] as unknown as Date,
 			timestamp: transfer.timestamp,
 			type: 'sent' as const,
 			otherPartyId: transfer.toUserId,
-			otherPartyName: transfer.toUser.name,
+			name: transfer.toUser.name,
 		})),
 		...userTransfers.receivedTransfers.map((transfer) => ({
 			id: transfer.id,
 			amount: transfer.amount,
+			date: formatDateTime(transfer.timestamp.toLocaleString()).split(',')[0] as unknown as Date,
+			time: formatDateTime(transfer.timestamp.toLocaleString()).split(',')[1] as unknown as Date,
 			timestamp: transfer.timestamp,
 			type: 'received' as const,
 			otherPartyId: transfer.fromUserId,
-			otherPartyName: transfer.fromUser.name,
+			name: transfer.fromUser.name,
 		})),
 	].sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
 
-	return allTransfers
+	// return allTransfers
 }
