@@ -27,19 +27,20 @@ export async function POST(request: NextRequest) {
 			{ status: HttpStatusCode.Forbidden }
 		)
 
+	const fromUserBalance = await prisma.balance.findUnique({
+		where: { userId },
+	})
+	console.log({ fromUserBalance, amount: amount * 100 })
+
+	// check: if the user initiating the transfer has sufficient funds or not
+	if (!fromUserBalance || fromUserBalance.amount < amount * 100)
+		return NextResponse.json(
+			{ error: 'Insufficient Funds!' },
+			{ status: HttpStatusCode.BadRequest }
+		)
+
 	try {
 		await prisma.$transaction(async (transaction) => {
-			const fromUserBalance = await transaction.balance.findUnique({
-				where: { userId },
-			})
-
-			// check: if the user initiating the transfer has sufficient funds or not
-			if (!fromUserBalance || fromUserBalance.amount < amount)
-				return NextResponse.json(
-					{ error: 'Insufficient Funds!' },
-					{ status: HttpStatusCode.BadRequest }
-				)
-
 			// update: balance for the user sending the money
 			await transaction.balance.update({
 				where: { userId },

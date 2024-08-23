@@ -3,24 +3,20 @@ import { Card, CardContent } from '@repo/ui/card'
 import { ArrowDownLeft, ArrowUpRight, RefreshCw } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/table'
 
+type Transaction = {
+	id: number
+	amount: number
+	timestamp: Date
+	type: 'sent' | 'received'
+	otherPartyId: number
+	otherPartyName: string
+}
+
 interface TransactionsCardProps {
-	transactions:
-		| {
-				id: number
-				timestamp: Date
-				amount: number
-				type: string
-				fromUserId?: number
-				toUserId?: number
-				toUserName?: string
-				fromUserName?: string
-		  }[]
-		| null
+	transactions: Transaction[] | null
 }
 
 export const TransactionsCard = ({ transactions }: TransactionsCardProps) => {
-	console.log(transactions)
-
 	return (
 		<Card
 			id="transactions"
@@ -42,7 +38,7 @@ export const TransactionsCard = ({ transactions }: TransactionsCardProps) => {
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{transactions.map((t) => (
+							{transactions.map((t: Transaction) => (
 								<TableRow key={t.id}>
 									<TableCell className="text-center w-1/12 p-2">
 										{t.type === 'sent' ? (
@@ -62,9 +58,7 @@ export const TransactionsCard = ({ transactions }: TransactionsCardProps) => {
 										{formatDateTime(t.timestamp.toLocaleString()).split(',')[1]}
 									</TableCell>
 									<TableCell className="text-center w-1/5 p-2">{t.id}</TableCell>
-									<TableCell className="text-center w-1/5 p-2">
-										{t.fromUserName || t.toUserName}
-									</TableCell>
+									<TableCell className="text-center w-1/5 p-2">{t.otherPartyName}</TableCell>
 									<TableCell className="text-center w-1/5 p-2">₹{t.amount / 100}</TableCell>
 								</TableRow>
 							))}

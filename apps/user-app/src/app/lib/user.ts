@@ -95,20 +95,24 @@ export async function getUserTransfers() {
 
 	if (!userTransfers) return null
 
-	const allUserTransfers = [
+	const allTransfers = [
 		...userTransfers.sentTransfers.map((transfer) => ({
-			...transfer,
+			id: transfer.id,
 			amount: transfer.amount,
-			type: 'sent',
-			toUserName: transfer.toUser.name,
+			timestamp: transfer.timestamp,
+			type: 'sent' as const,
+			otherPartyId: transfer.toUserId,
+			otherPartyName: transfer.toUser.name,
 		})),
 		...userTransfers.receivedTransfers.map((transfer) => ({
-			...transfer,
+			id: transfer.id,
 			amount: transfer.amount,
-			type: 'received',
-			fromUserName: transfer.fromUser.name,
+			timestamp: transfer.timestamp,
+			type: 'received' as const,
+			otherPartyId: transfer.fromUserId,
+			otherPartyName: transfer.fromUser.name,
 		})),
-	]
+	].sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
 
-	return allUserTransfers
+	return allTransfers
 }

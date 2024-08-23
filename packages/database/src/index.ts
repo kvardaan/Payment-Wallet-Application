@@ -23,8 +23,6 @@ prisma.$use(async (params, next) => {
 			},
 		})
 
-		console.log({ balance, result })
-
 		return result
 	}
 	return next(params)
