@@ -12,7 +12,7 @@ interface BalanceCardProps {
 
 export const BalanceCard = ({ balances }: BalanceCardProps) => {
 	return (
-		<Card id="balances" className="border dark:border-white/25 dark:bg-black">
+		<Card className="border dark:border-white/25 dark:bg-black">
 			<CardTitle className={cn(poppins.className, 'm-4 font-medium text-center md:!text-left')}>
 				Balance
 			</CardTitle>

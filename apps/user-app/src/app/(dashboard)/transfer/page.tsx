@@ -1,5 +1,5 @@
 import { Heading } from '@repo/ui/heading'
-import { TransferCard } from '@/components/dashboard/transfer-card'
+import { TransferCard } from '@/components/dashboard/transfer/transfer-card'
 
 export default function Page() {
 	return (

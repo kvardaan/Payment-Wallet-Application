@@ -47,12 +47,12 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
 	return (
 		<div>
-			<div className="flex items-center py-4">
+			<div className="flex items-center py-4 gap-x-4">
 				<Input
 					placeholder="Filter names..."
 					value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
 					onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
-					className="max-w-sm dark:bg-black"
+					className="max-w-xs dark:bg-black"
 				/>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
@@ -79,7 +79,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>
-			<div className="rounded-md border dark:bg-black dark:border-white/25 dark:text-white p-4">
+			<div className="rounded-md border bg-white dark:bg-black dark:border-white/25 dark:text-white p-4">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (

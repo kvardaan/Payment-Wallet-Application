@@ -1,7 +1,7 @@
 import { Heading } from '@repo/ui/heading'
 import { getUserTransfers } from '@/lib/user'
-import { DataTable } from '@/components/dashboard/data-table'
-import { columns, Transfer } from '@/components/dashboard/columns'
+import { DataTable } from '@/components/dashboard/transactions/data-table'
+import { columns, Transfer } from '@/components/dashboard/transactions/columns'
 
 export default async function Page() {
 	const userTransfers: Transfer[] | any = await getUserTransfers()
