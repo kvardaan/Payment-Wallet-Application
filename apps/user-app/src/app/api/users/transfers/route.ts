@@ -30,7 +30,6 @@ export async function POST(request: NextRequest) {
 	const fromUserBalance = await prisma.balance.findUnique({
 		where: { userId },
 	})
-	console.log({ fromUserBalance, amount: amount * 100 })
 
 	// check: if the user initiating the transfer has sufficient funds or not
 	if (!fromUserBalance || fromUserBalance.amount < amount * 100)

@@ -8,17 +8,11 @@ export async function getUserId() {
 
 	if (!userId) return
 
-	try {
-		const user = await prisma.user.findUnique({
-			where: { externalId: userId },
-		})
+	const user = await prisma.user.findUnique({
+		where: { externalId: userId },
+	})
 
-		return user?.id
-	} catch (error) {
-		console.log(error)
-
-		return
-	}
+	return user?.id
 }
 
 export async function getUserBalance() {

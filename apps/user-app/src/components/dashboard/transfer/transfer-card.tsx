@@ -48,8 +48,6 @@ export const TransferCard = () => {
 				},
 			})
 
-			console.log(response)
-
 			toast.success('Money sent successfully!', {
 				description: `${new Date().toLocaleDateString()}`,
 			})
