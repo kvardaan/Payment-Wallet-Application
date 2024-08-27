@@ -10,27 +10,27 @@ import avatar4 from '@/assets/avatar-4.png'
 
 const testimonials = [
 	{
-		text: '“This product has completely transformed how I manage my projects and deadlines”',
+		text: '"This digital wallet has completely transformed how I manage my daily finances"',
 		name: 'Sophia Perez',
-		title: 'Director @ Quantum',
+		title: 'Freelance Designer',
 		avatarImg: avatar1,
 	},
 	{
-		text: '“These AI tools have completely revolutionized our SEO entire strategy overnight”',
+		text: '"The seamless bank integration and instant transfers have revolutionized my business operations"',
 		name: 'Jamie Lee',
-		title: 'Founder @ Pulse',
+		title: 'Small Business Owner',
 		avatarImg: avatar2,
 	},
 	{
-		text: '“The user interface is so intuitive and easy to use, it has saved us countless hours”',
+		text: '"The user interface is so intuitive and secure, it has made managing my money a breeze"',
 		name: 'Alisa Hester',
-		title: 'Product @ Innovate',
+		title: 'Software Developer',
 		avatarImg: avatar3,
 	},
 	{
-		text: "“Our team's productivity has increased significantly since we started using this tool”",
+		text: '"Sending money to friends and splitting bills has never been easier since I started using this wallet"',
 		name: 'Alec Whitten',
-		title: 'CTO @ Tech Solutions',
+		title: 'College Student',
 		avatarImg: avatar4,
 	},
 ]
@@ -63,13 +63,13 @@ export const Testimonials = () => {
 						{[...testimonials, ...testimonials].map((testimonial) => (
 							<div
 								key={testimonial.name}
-								className="border border-white/15 p-6 md:p-10 rounded-xl bg-[linear-gradient(to_bottom_left,rgb(140,69,255,0.3),black)] max-w-xs md:max-w-md flex-none"
+								className="border border-white/15 p-6 md:p-10 rounded-xl bg-[linear-gradient(to_top_right,rgb(140,69,255,0.3),black)] max-w-xs md:max-w-md flex flex-col justify-between"
 							>
 								<div className="text-lg md:text-2xl tracking-tight text-white">
 									{testimonial.text}
 								</div>
 								<div className="flex items-center gap-3 mt-5">
-									<div className="relative after:content-[''] after:absolute after:inset-0  after:mix-blend-soft-light after:rounded-lg before:content-[''] before:absolute before:inset-0 before:border before:border-white/30 before:z-10 before:rounded-lg">
+									<div className="relative after:content-[''] after:absolute after:inset-0 after:mix-blend-soft-light after:rounded-lg before:content-[''] before:absolute before:inset-0 before:border before:border-white/30 before:z-10 before:rounded-lg">
 										<Image
 											src={testimonial.avatarImg}
 											alt={`Avatar for ${testimonial.name}`}
