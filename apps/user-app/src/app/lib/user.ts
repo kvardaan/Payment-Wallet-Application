@@ -112,6 +112,4 @@ export async function getUserTransfers() {
 			name: transfer.fromUser.name,
 		})),
 	].sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
-
-	// return allTransfers
 }

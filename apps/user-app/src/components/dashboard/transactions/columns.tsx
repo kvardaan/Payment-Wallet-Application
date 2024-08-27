@@ -1,27 +1,22 @@
 'use client'
 
+import z from 'zod'
+
 import { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal, ArrowDownLeft, ArrowUpRight } from 'lucide-react'
+import { ArrowDownLeft, ArrowUpRight } from 'lucide-react'
 
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuTrigger,
-} from '@repo/ui/dropdown-menu'
-import { Button } from '@repo/ui/button'
+export const TransferSchema = z.object({
+	id: z.number(),
+	amount: z.number(),
+	date: z.date(),
+	time: z.date(),
+	timestamp: z.date(),
+	type: z.enum(['sent', 'received']),
+	otherPartyId: z.number(),
+	name: z.string(),
+})
 
-export type Transfer = {
-	id: number
-	amount: number
-	date: Date
-	time: Date
-	timestamp: Date
-	type: 'sent' | 'received'
-	otherPartyId: number
-	name: string
-}
+export type Transfer = z.infer<typeof TransferSchema>
 
 export const columns: ColumnDef<Transfer>[] = [
 	{

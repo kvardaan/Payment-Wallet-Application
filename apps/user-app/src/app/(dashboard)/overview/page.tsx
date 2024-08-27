@@ -3,12 +3,11 @@ import { getUserBankAccounts } from '@/lib/user'
 import { AddBankAccountCard } from '@/components/dashboard/overview/add-bank-account-card'
 import { UserBankAccountsCard } from '@/components/dashboard/overview/user-bank-accounts-card'
 
-export interface BankAccount {
+export type BankAccount = {
 	id: number
 	accountNumber: number
 	bankName: string
 }
-
 export type UserBankAccounts = { userBankAccounts: BankAccount[] }
 
 export default async function Page() {

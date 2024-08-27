@@ -3,7 +3,7 @@ import { poppins } from '@repo/ui/font'
 import { Card, CardContent, CardTitle } from '@repo/ui/card'
 import { Table, TableBody, TableCell, TableRow } from '@repo/ui/table'
 
-interface BalanceCardProps {
+type BalanceCardProps = {
 	balances: {
 		unlocked: number
 		locked: number

@@ -1,3 +1,4 @@
+import { z } from 'zod'
 import axios, { HttpStatusCode } from 'axios'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -5,14 +6,30 @@ import prisma from '@repo/db'
 import { getUserId } from '@/lib/user'
 import { generateToken } from '@/lib/utils'
 
+const TransactionSchema = z.object({
+	amount: z.number(),
+	provider: z.string(),
+})
+
 export async function POST(request: NextRequest) {
 	const userId = await getUserId()
 	const body = await request.json()
 
-	const { amount, provider } = body
+	const transactionData = TransactionSchema.safeParse(body)
 
 	if (!userId)
 		return NextResponse.json({ error: 'Unauthorized' }, { status: HttpStatusCode.Unauthorized })
+
+	if (!transactionData.success) {
+		console.log(transactionData.error)
+
+		return NextResponse.json(
+			{ error: transactionData.error.name },
+			{ status: HttpStatusCode.BadRequest }
+		)
+	}
+
+	const { amount, provider } = transactionData.data
 
 	const token = generateToken()
 

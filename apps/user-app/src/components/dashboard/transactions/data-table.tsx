@@ -22,7 +22,7 @@ import {
 } from '@repo/ui/dropdown-menu'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/table'
 
-interface DataTableProps<TData, TValue> {
+type DataTableProps<TData, TValue> = {
 	columns: ColumnDef<TData, TValue>[]
 	data: TData[]
 }

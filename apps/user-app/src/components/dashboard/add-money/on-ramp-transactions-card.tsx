@@ -1,17 +1,11 @@
 import { cn } from '@repo/ui/cn'
 import { poppins } from '@repo/ui/font'
 import { Card, CardContent, CardTitle } from '@repo/ui/card'
-import { columns } from '@/components/dashboard/add-money/columns'
 import { DataTable } from '@/components/dashboard/add-money/data-table'
+import { columns, Transaction } from '@/components/dashboard/add-money/columns'
 
-interface OnRampTransactionsCardProps {
-	transactions: {
-		time: Date
-		amount: number
-		status: string
-		provider: string
-		token: string
-	}[]
+type OnRampTransactionsCardProps = {
+	transactions: Transaction[]
 }
 
 export const OnRampTransactionsCard = ({ transactions }: OnRampTransactionsCardProps) => {

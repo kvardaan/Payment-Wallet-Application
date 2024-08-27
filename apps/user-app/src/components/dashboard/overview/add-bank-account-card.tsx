@@ -5,13 +5,13 @@ import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import { cn } from '@repo/ui/cn'
 import { Input } from '@repo/ui/input'
+import { poppins } from '@repo/ui/font'
 import { toast } from '@repo/ui/sonner'
 import { Button } from '@repo/ui/button'
 import { Card, CardContent, CardTitle } from '@repo/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@repo/ui/form'
-import { cn } from '@repo/ui/cn'
-import { poppins } from '@repo/ui/font'
 
 const FormSchema = z.object({
 	accountNumber: z
@@ -25,8 +25,10 @@ const FormSchema = z.object({
 		.min(3, 'Bank name cannot be empty'),
 })
 
+type FormData = z.infer<typeof FormSchema>
+
 export const AddBankAccountCard = () => {
-	const form = useForm<z.infer<typeof FormSchema>>({
+	const form = useForm<FormData>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			accountNumber: '',
@@ -34,9 +36,13 @@ export const AddBankAccountCard = () => {
 		},
 	})
 
-	async function onSubmit(data: z.infer<typeof FormSchema>) {
+	async function onSubmit(data: FormData) {
 		try {
-			const response = await axios({ method: 'post', url: '/api/users/accounts', data })
+			const response = await axios({
+				method: 'post',
+				url: '/api/users/accounts',
+				data: { accountNumber: Number(data.accountNumber), bankName: data.bankName },
+			})
 			toast.success('Bank account added successfully!', {
 				description: `${new Date().toLocaleString()}`,
 			})

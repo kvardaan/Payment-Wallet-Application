@@ -28,8 +28,10 @@ const FormSchema = z.object({
 	),
 })
 
+type FormData = z.infer<typeof FormSchema>
+
 export const TransferCard = () => {
-	const form = useForm<z.infer<typeof FormSchema>>({
+	const form = useForm<FormData>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			number: '',
@@ -37,13 +39,13 @@ export const TransferCard = () => {
 		},
 	})
 
-	async function onSubmit(data: z.infer<typeof FormSchema>) {
+	async function onSubmit(data: FormData) {
 		try {
 			const response = await axios({
 				method: 'post',
 				url: '/api/users/transfers',
 				data: {
-					amount: data.amount,
+					amount: Number(data.amount),
 					transferToNumber: `+91${data.number}`,
 				},
 			})

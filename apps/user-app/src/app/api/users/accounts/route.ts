@@ -1,25 +1,37 @@
+import { z } from 'zod'
 import { HttpStatusCode } from 'axios'
 import { NextRequest, NextResponse } from 'next/server'
 
 import prisma from '@repo/db'
 import { getUserId } from '@/lib/user'
 
+const AccountSchema = z.object({
+	accountNumber: z.number(),
+	bankName: z.string(),
+})
+
 export async function POST(request: NextRequest) {
 	const userId = await getUserId()
 	const body = await request.json()
-
-	const { bankName, accountNumber } = body
+	const accoutData = AccountSchema.safeParse(body)
 
 	if (!userId)
 		return NextResponse.json({ error: 'Unauthorized' }, { status: HttpStatusCode.Unauthorized })
 
+	if (!accoutData.success) {
+		console.log(accoutData.error)
+
+		return NextResponse.json(
+			{ error: accoutData.error.name },
+			{ status: HttpStatusCode.BadRequest }
+		)
+	}
+
+	const { accountNumber, bankName } = accoutData.data
+
 	try {
 		const response = await prisma.bankAccount.create({
-			data: {
-				bankName,
-				accountNumber: Number(accountNumber),
-				userId,
-			},
+			data: { bankName, accountNumber, userId },
 		})
 
 		return NextResponse.json(response)

@@ -1,7 +1,7 @@
 import { cn } from '@repo/ui/cn'
 import { lusitana } from '@repo/ui/font'
 
-interface HeadingProps {
+type HeadingProps = {
 	title: string
 	className?: string
 	children?: React.ReactNode

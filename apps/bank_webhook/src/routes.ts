@@ -1,3 +1,4 @@
+import { z } from 'zod'
 import { Router, Response, Request } from 'express'
 
 import prisma from '@repo/db'
@@ -5,14 +6,18 @@ import { onRampRandomStatus } from './utils'
 
 const router = Router()
 
-type PaymentInformation = {
-	userId: number
-	amount: number
-	token: string
-}
+const PaymentSchema = z.object({
+	userId: z.number(),
+	amount: z.number(),
+	token: z.string(),
+})
 
 router.post('/web-hook', async (request: Request, response: Response) => {
-	const { userId, amount, token }: PaymentInformation = request.body
+	const paymentData = PaymentSchema.safeParse(request.body)
+
+	if (!paymentData.success) return response.status(400)
+
+	const { userId, amount, token } = paymentData.data
 
 	try {
 		const status = onRampRandomStatus()

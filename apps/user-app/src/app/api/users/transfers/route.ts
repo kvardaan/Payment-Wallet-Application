@@ -1,17 +1,33 @@
+import { z } from 'zod'
 import { HttpStatusCode } from 'axios'
+import { NextRequest, NextResponse } from 'next/server'
 
 import prisma from '@repo/db'
 import { getUserId } from '@/lib/user'
-import { NextRequest, NextResponse } from 'next/server'
+
+const TransferSchema = z.object({
+	amount: z.number(),
+	transferToNumber: z.string(),
+})
 
 export async function POST(request: NextRequest) {
 	const userId = await getUserId()
 	const body = await request.json()
-
-	const { amount, transferToNumber }: { amount: number; transferToNumber: string } = body
+	const transferData = TransferSchema.safeParse(body)
 
 	if (!userId)
 		return NextResponse.json({ error: 'Unauthorized' }, { status: HttpStatusCode.Unauthorized })
+
+	if (!transferData.success) {
+		console.log(transferData.error)
+
+		return NextResponse.json(
+			{ error: transferData.error.name },
+			{ status: HttpStatusCode.BadRequest }
+		)
+	}
+
+	const { amount, transferToNumber } = transferData.data
 
 	const transferToUser = await prisma.user.findUnique({
 		where: { number: transferToNumber },
@@ -43,13 +59,13 @@ export async function POST(request: NextRequest) {
 			// update: balance for the user sending the money
 			await transaction.balance.update({
 				where: { userId },
-				data: { amount: { decrement: Number(amount) * 100 } },
+				data: { amount: { decrement: amount * 100 } },
 			})
 
 			// update: balance for the user receiving the money
 			await transaction.balance.update({
 				where: { userId: transferToUser?.id },
-				data: { amount: { increment: Number(amount) * 100 } },
+				data: { amount: { increment: amount * 100 } },
 			})
 
 			// create: transfer in the DB
@@ -57,7 +73,7 @@ export async function POST(request: NextRequest) {
 				data: {
 					fromUserId: userId,
 					toUserId: transferToUser?.id as number,
-					amount: Number(amount) * 100,
+					amount: amount * 100,
 					timestamp: new Date(),
 				},
 			})

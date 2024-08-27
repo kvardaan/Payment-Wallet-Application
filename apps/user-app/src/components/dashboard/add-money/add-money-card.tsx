@@ -9,6 +9,7 @@ import { Input } from '@repo/ui/input'
 import { toast } from '@repo/ui/sonner'
 import { Button } from '@repo/ui/button'
 import { Card, CardContent } from '@repo/ui/card'
+import { BankAccount } from '@/(dashboard)/overview/page'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@repo/ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui/select'
 
@@ -19,16 +20,11 @@ const FormSchema = z.object({
 	bankName: z.string({ required_error: 'Please select a bank to continue!' }),
 })
 
-interface AddMoneyCardProps {
-	userBankAccounts: {
-		id: number
-		accountNumber: number
-		bankName: string
-	}[]
-}
+type FormData = z.infer<typeof FormSchema>
+type AddMoneyCardProps = { userBankAccounts: BankAccount[] }
 
 export const AddMoneyCard = ({ userBankAccounts }: AddMoneyCardProps) => {
-	const form = useForm<z.infer<typeof FormSchema>>({
+	const form = useForm<FormData>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			amount: '',
@@ -36,13 +32,13 @@ export const AddMoneyCard = ({ userBankAccounts }: AddMoneyCardProps) => {
 		},
 	})
 
-	async function onSubmit(data: z.infer<typeof FormSchema>) {
+	async function onSubmit(data: FormData) {
 		try {
 			const response = await axios({
 				method: 'post',
 				url: '/api/users/transactions',
 				data: {
-					amount: data.amount,
+					amount: Number(data.amount),
 					provider: data.bankName,
 				},
 			})
