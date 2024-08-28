@@ -10,6 +10,7 @@ import { toast } from '@repo/ui/sonner'
 import { Button } from '@repo/ui/button'
 import { Card, CardContent } from '@repo/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@repo/ui/form'
+import { useAppStore } from '@/store/useAppStore'
 
 const FormSchema = z.object({
 	number: z
@@ -31,6 +32,8 @@ const FormSchema = z.object({
 type FormData = z.infer<typeof FormSchema>
 
 export const TransferCard = () => {
+	const fetchTransfers = useAppStore((state) => state.fetchTransfers)
+
 	const form = useForm<FormData>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
@@ -49,6 +52,8 @@ export const TransferCard = () => {
 					transferToNumber: `+91${data.number}`,
 				},
 			})
+
+			fetchTransfers()
 
 			toast.success('Money sent successfully!', {
 				description: `${new Date().toLocaleDateString()}`,

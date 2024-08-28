@@ -5,7 +5,8 @@
 		"paths": {
 			"@/*": ["./src/app/*"],
 			"@/components/*": ["./src/components/*"],
-			"@/assets/*": ["./src/assets/*"]
+			"@/assets/*": ["./src/assets/*"],
+			"@/store/*": ["./src/store/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

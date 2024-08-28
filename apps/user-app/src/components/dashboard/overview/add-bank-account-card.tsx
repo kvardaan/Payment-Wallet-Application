@@ -10,6 +10,7 @@ import { Input } from '@repo/ui/input'
 import { poppins } from '@repo/ui/font'
 import { toast } from '@repo/ui/sonner'
 import { Button } from '@repo/ui/button'
+import { useAppStore } from '@/store/useAppStore'
 import { Card, CardContent, CardTitle } from '@repo/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@repo/ui/form'
 
@@ -28,6 +29,8 @@ const FormSchema = z.object({
 type FormData = z.infer<typeof FormSchema>
 
 export const AddBankAccountCard = () => {
+	const fetchBankAccounts = useAppStore((state) => state.fetchBankAccounts)
+
 	const form = useForm<FormData>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
@@ -38,11 +41,14 @@ export const AddBankAccountCard = () => {
 
 	async function onSubmit(data: FormData) {
 		try {
-			const response = await axios({
+			await axios({
 				method: 'post',
 				url: '/api/users/accounts',
 				data: { accountNumber: Number(data.accountNumber), bankName: data.bankName },
 			})
+
+			fetchBankAccounts()
+
 			toast.success('Bank account added successfully!', {
 				description: `${new Date().toLocaleString()}`,
 			})

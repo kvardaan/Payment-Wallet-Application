@@ -9,6 +9,7 @@ import { Input } from '@repo/ui/input'
 import { toast } from '@repo/ui/sonner'
 import { Button } from '@repo/ui/button'
 import { Card, CardContent } from '@repo/ui/card'
+import { useAppStore } from '@/store/useAppStore'
 import { BankAccount } from '@/(dashboard)/overview/page'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@repo/ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui/select'
@@ -21,14 +22,17 @@ const FormSchema = z.object({
 })
 
 type FormData = z.infer<typeof FormSchema>
-type AddMoneyCardProps = { userBankAccounts: BankAccount[] }
 
-export const AddMoneyCard = ({ userBankAccounts }: AddMoneyCardProps) => {
+export const AddMoneyCard = () => {
+	const bankAccounts = useAppStore((state) => state.bankAccounts)
+	const fetchOnRampTransactions = useAppStore((state) => state.fetchOnRampTransactions)
+	const fetchBalance = useAppStore((state) => state.fetchBalance)
+
 	const form = useForm<FormData>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			amount: '',
-			bankName: userBankAccounts[0]?.bankName,
+			bankName: bankAccounts ? bankAccounts[0]?.bankName : '',
 		},
 	})
 
@@ -42,6 +46,10 @@ export const AddMoneyCard = ({ userBankAccounts }: AddMoneyCardProps) => {
 					provider: data.bankName,
 				},
 			})
+
+			fetchOnRampTransactions()
+			fetchBalance()
+
 			toast.success('Transaction started successfully!', {
 				description: `${new Date().toLocaleString()}`,
 			})
@@ -92,11 +100,12 @@ export const AddMoneyCard = ({ userBankAccounts }: AddMoneyCardProps) => {
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												{userBankAccounts.map((bankAccount) => (
-													<SelectItem key={bankAccount.id} value={bankAccount.bankName}>
-														{bankAccount.bankName}
-													</SelectItem>
-												))}
+												{bankAccounts &&
+													bankAccounts.map((bankAccount) => (
+														<SelectItem key={bankAccount.id} value={bankAccount.bankName}>
+															{bankAccount.bankName}
+														</SelectItem>
+													))}
 											</SelectContent>
 										</Select>
 										<FormMessage />
