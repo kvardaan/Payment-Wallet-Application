@@ -1,11 +1,9 @@
 'use client'
 
-import { cn } from '@repo/ui/cn'
-import { poppins } from '@repo/ui/font'
 import { useAppStore } from '@/store/useAppStore'
-import { Card, CardContent, CardTitle } from '@repo/ui/card'
 import { columns } from '@/components/dashboard/add-money/columns'
 import { DataTable } from '@/components/dashboard/add-money/data-table'
+import { cn, poppins, Card, CardContent, CardTitle } from '@repo/ui/components'
 
 export const OnRampTransactionsCard = () => {
 	const transactions = useAppStore((state) => state.onRampTransactions)

@@ -1,4 +1,4 @@
-import { Heading } from '@repo/ui/heading'
+import { Heading } from '@repo/ui/components'
 import { TransferCard } from '@/components/dashboard/transfer/transfer-card'
 
 export default function Page() {

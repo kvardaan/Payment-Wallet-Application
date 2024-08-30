@@ -1,5 +1,5 @@
-import { cn } from '@repo/ui/cn'
-import { lusitana } from '@repo/ui/font'
+import { cn } from '../../lib/utils'
+import { lusitana } from '../../lib/fonts'
 
 type HeadingProps = {
 	title: string

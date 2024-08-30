@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 import './globals.css'
 import '@repo/ui/styles.css'
-import { inter } from '@repo/ui/font'
+import { inter } from '@repo/ui/components'
 
 export const metadata: Metadata = {
 	title: 'Create Turborepo',

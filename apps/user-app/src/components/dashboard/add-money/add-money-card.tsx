@@ -5,13 +5,13 @@ import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Input } from '@repo/ui/input'
-import { toast } from '@repo/ui/sonner'
-import { Button } from '@repo/ui/button'
-import { Card, CardContent } from '@repo/ui/card'
+import { Input } from '@repo/ui/components'
+import { toast } from '@repo/ui/components'
+import { Button } from '@repo/ui/components'
 import { useAppStore } from '@/store/useAppStore'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@repo/ui/form'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui/select'
+import { Card, CardContent } from '@repo/ui/components'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui/components'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@repo/ui/components'
 
 const FormSchema = z.object({
 	amount: z.string().min(1, {

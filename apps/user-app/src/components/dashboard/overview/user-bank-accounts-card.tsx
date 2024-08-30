@@ -1,11 +1,20 @@
 'use client'
 
-import { cn } from '@repo/ui/cn'
-import { poppins } from '@repo/ui/font'
+import {
+	cn,
+	poppins,
+	Card,
+	CardContent,
+	CardTitle,
+	Table,
+	TableBody,
+	TableCell,
+	TableHeader,
+	TableHead,
+	TableRow,
+} from '@repo/ui/components'
 import { useAppStore } from '@/store/useAppStore'
 import { BankAccount } from '@/(dashboard)/overview/page'
-import { Card, CardContent, CardTitle } from '@repo/ui/card'
-import { Table, TableBody, TableCell, TableHeader, TableHead, TableRow } from '@repo/ui/table'
 
 export const UserBankAccountsCard = () => {
 	const userBankAccounts = useAppStore((state) => state.bankAccounts)

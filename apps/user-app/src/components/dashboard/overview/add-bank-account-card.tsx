@@ -5,14 +5,23 @@ import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { cn } from '@repo/ui/cn'
-import { Input } from '@repo/ui/input'
-import { poppins } from '@repo/ui/font'
-import { toast } from '@repo/ui/sonner'
-import { Button } from '@repo/ui/button'
+import {
+	cn,
+	poppins,
+	Input,
+	toast,
+	Button,
+	Card,
+	CardContent,
+	CardTitle,
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@repo/ui/components'
 import { useAppStore } from '@/store/useAppStore'
-import { Card, CardContent, CardTitle } from '@repo/ui/card'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@repo/ui/form'
 
 const FormSchema = z.object({
 	accountNumber: z

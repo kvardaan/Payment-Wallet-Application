@@ -17,10 +17,10 @@ import {
 	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuTrigger,
-} from '@repo/ui/dropdown-menu'
-import { Input } from '@repo/ui/input'
-import { Button } from '@repo/ui/button'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/table'
+} from '@repo/ui/components'
+import { Input } from '@repo/ui/components'
+import { Button } from '@repo/ui/components'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/components'
 
 type DataTableProps<TData, TValue> = {
 	columns: ColumnDef<TData, TValue>[]

@@ -3,8 +3,8 @@
 import { useClerk } from '@clerk/nextjs'
 import { ArrowLeftRight, Handshake, Home, LogOut, PlusCircle } from 'lucide-react'
 
-import { Button } from '@repo/ui/button'
-import { SideBarItem } from '@repo/ui/side-bar-item'
+import { Button } from '@repo/ui/components'
+import { SideBarItem } from '@repo/ui/components'
 
 export function SideBar() {
 	const { signOut } = useClerk()

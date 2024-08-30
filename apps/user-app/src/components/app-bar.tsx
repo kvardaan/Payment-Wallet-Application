@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Clerk from '@/components/clerk'
 import LogoIcon from '@/assets/logo.svg'
 import SideModal from '@/components/side-modal'
-import { ThemeToggle } from '@repo/ui/theme-toggle'
+import { ThemeToggle } from '@repo/ui/components'
 
 export function AppBar() {
 	return (

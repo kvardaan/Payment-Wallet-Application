@@ -1,4 +1,4 @@
-export const Twitter = () => {
+const Twitter = () => {
 	return (
 		<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<g clipPath="url(#clip0_29_46777)">
@@ -16,7 +16,7 @@ export const Twitter = () => {
 	)
 }
 
-export const GitHub = () => {
+const GitHub = () => {
 	return (
 		<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<g clipPath="url(#clip0_29_46773)">
@@ -34,7 +34,7 @@ export const GitHub = () => {
 	)
 }
 
-export const UpRightIcon = () => {
+const UpRightIcon = () => {
 	return (
 		<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<rect x="2" y="2" width="12" height="12" rx="3" fill="#EEEEF0" />
@@ -48,3 +48,5 @@ export const UpRightIcon = () => {
 		</svg>
 	)
 }
+
+export { Twitter, GitHub, UpRightIcon }

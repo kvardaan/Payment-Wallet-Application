@@ -8,11 +8,9 @@
 		"dist"
 	],
 	"exports": {
+		".": "./dist/index.js",
 		"./styles.css": "./dist/index.css",
-		"./cn": "./src/lib/utils.ts",
-		"./font": "./src/lib/fonts.ts",
-		"./*": "./src/components/ui/*.tsx",
-		"./use-toast": "./src/components/ui/use-toast.ts"
+		"./components": "./src/index.ts"
 	},
 	"license": "MIT",
 	"scripts": {

@@ -4,10 +4,8 @@ import { ClerkProvider } from '@clerk/nextjs'
 
 import './globals.css'
 import '@repo/ui/styles.css'
-import { cn } from '@repo/ui/cn'
-import { inter } from '@repo/ui/font'
 import { AppProvider } from '@/store/AppProvider'
-import { ThemeProvider } from '@repo/ui/theme-provider'
+import { cn, inter, ThemeProvider } from '@repo/ui/components'
 
 export const metadata: Metadata = {
 	title: 'Payment Wallet Application',

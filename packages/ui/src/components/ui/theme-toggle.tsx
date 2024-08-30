@@ -8,8 +8,8 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 	DropdownMenuContent,
-} from '@repo/ui/dropdown-menu'
-import { Button } from '@repo/ui/button'
+} from './dropdown-menu'
+import { Button } from './button'
 
 export const ThemeToggle = () => {
 	const { setTheme } = useTheme()

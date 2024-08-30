@@ -1,4 +1,4 @@
-import { Heading } from '@repo/ui/heading'
+import { Heading } from '@repo/ui/components'
 import { AddBankAccountCard } from '@/components/dashboard/overview/add-bank-account-card'
 import { UserBankAccountsCard } from '@/components/dashboard/overview/user-bank-accounts-card'
 

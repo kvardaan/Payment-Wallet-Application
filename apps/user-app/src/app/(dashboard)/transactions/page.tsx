@@ -1,8 +1,8 @@
 'use client'
 
-import { Heading } from '@repo/ui/heading'
+import { Heading } from '@repo/ui/components'
 import { useAppStore } from '@/store/useAppStore'
-import { Card, CardContent } from '@repo/ui/card'
+import { Card, CardContent } from '@repo/ui/components'
 import { columns } from '@/components/dashboard/transactions/columns'
 import { DataTable } from '@/components/dashboard/transactions/data-table'
 
