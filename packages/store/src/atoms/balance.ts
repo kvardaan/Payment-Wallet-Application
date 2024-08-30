@@ -1,8 +1,8 @@
-import { atom } from "recoil";
+import { atom } from 'recoil'
 
 const balanceAtom = atom<number>({
-	key: "balance",
+	key: 'balance',
 	default: 0,
-});
+})
 
-export default balanceAtom;
+export default balanceAtom

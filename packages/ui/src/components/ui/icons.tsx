@@ -13,8 +13,8 @@ export const Twitter = () => {
 				</clipPath>
 			</defs>
 		</svg>
-	);
-};
+	)
+}
 
 export const GitHub = () => {
 	return (
@@ -31,8 +31,8 @@ export const GitHub = () => {
 				</clipPath>
 			</defs>
 		</svg>
-	);
-};
+	)
+}
 
 export const UpRightIcon = () => {
 	return (
@@ -46,5 +46,5 @@ export const UpRightIcon = () => {
 				strokeLinejoin="round"
 			/>
 		</svg>
-	);
-};
+	)
+}

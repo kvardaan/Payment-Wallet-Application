@@ -1,14 +1,15 @@
-import { BankAccount } from '@/(dashboard)/overview/page'
-import { Transaction } from '@/components/dashboard/add-money/columns'
-import { Transfer } from '@/components/dashboard/transactions/columns'
+import { create } from 'zustand'
+import { devtools } from 'zustand/middleware'
+
 import {
 	getUserBalance,
 	getUserBankAccounts,
 	getUserOnRampTransactions,
 	getUserTransfers,
 } from '@/lib/user'
-import { create } from 'zustand'
-import { devtools } from 'zustand/middleware'
+import { BankAccount } from '@/(dashboard)/overview/page'
+import { Transaction } from '@/components/dashboard/add-money/columns'
+import { Transfer } from '@/components/dashboard/transactions/columns'
 
 interface AppState {
 	balance: { unlocked: number; locked: number } | null
