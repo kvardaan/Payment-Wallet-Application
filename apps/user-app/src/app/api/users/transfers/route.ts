@@ -7,7 +7,7 @@ import { getUserId } from '@/lib/user'
 
 const TransferSchema = z.object({
 	amount: z.number(),
-	transferToNumber: z.string(),
+	transferToUsername: z.string(),
 })
 
 export async function POST(request: NextRequest) {
@@ -27,10 +27,10 @@ export async function POST(request: NextRequest) {
 		)
 	}
 
-	const { amount, transferToNumber } = transferData.data
+	const { amount, transferToUsername } = transferData.data
 
 	const transferToUser = await prisma.user.findUnique({
-		where: { number: transferToNumber },
+		where: { username: transferToUsername },
 	})
 
 	if (!transferToUser)

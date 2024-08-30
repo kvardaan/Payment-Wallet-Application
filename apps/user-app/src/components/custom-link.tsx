@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
-import { UpRightIcon } from '@repo/ui/icons'
 import { cn } from '@repo/ui/cn'
+import { UpRightIcon } from '@repo/ui/icons'
 
 interface CustomLinkProps {
 	href: string

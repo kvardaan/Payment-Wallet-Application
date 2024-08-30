@@ -1,15 +1,8 @@
 import { NextResponse } from 'next/server'
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-const isProtectedRoute = createRouteMatcher([
-	'/overview(.*)',
-	'/add-money(.*)',
-	'/transactions(.*)',
-	'/transfer(.*)',
-])
-
-const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)', '/'])
 const isPublicApiRoute = createRouteMatcher(['/api/webhooks/users'])
+const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)', '/'])
 
 export default clerkMiddleware((auth, req) => {
 	const { userId } = auth()

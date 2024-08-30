@@ -10,7 +10,6 @@ import { toast } from '@repo/ui/sonner'
 import { Button } from '@repo/ui/button'
 import { Card, CardContent } from '@repo/ui/card'
 import { useAppStore } from '@/store/useAppStore'
-import { BankAccount } from '@/(dashboard)/overview/page'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@repo/ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui/select'
 
@@ -25,8 +24,8 @@ type FormData = z.infer<typeof FormSchema>
 
 export const AddMoneyCard = () => {
 	const bankAccounts = useAppStore((state) => state.bankAccounts)
-	const fetchOnRampTransactions = useAppStore((state) => state.fetchOnRampTransactions)
 	const fetchBalance = useAppStore((state) => state.fetchBalance)
+	const fetchOnRampTransactions = useAppStore((state) => state.fetchOnRampTransactions)
 
 	const form = useForm<FormData>({
 		resolver: zodResolver(FormSchema),
@@ -47,8 +46,8 @@ export const AddMoneyCard = () => {
 				},
 			})
 
-			fetchOnRampTransactions()
 			fetchBalance()
+			fetchOnRampTransactions()
 
 			toast.success('Transaction started successfully!', {
 				description: `${new Date().toLocaleString()}`,

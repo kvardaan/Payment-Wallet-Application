@@ -1,10 +1,10 @@
 'use client'
 
 import { useClerk } from '@clerk/nextjs'
+import { ArrowLeftRight, Handshake, Home, LogOut, PlusCircle } from 'lucide-react'
 
 import { Button } from '@repo/ui/button'
 import { SideBarItem } from '@repo/ui/side-bar-item'
-import { ArrowLeftRight, Handshake, Home, LogOut, PlusCircle } from 'lucide-react'
 
 export function SideBar() {
 	const { signOut } = useClerk()

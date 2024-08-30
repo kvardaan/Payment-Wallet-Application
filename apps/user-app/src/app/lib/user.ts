@@ -3,7 +3,7 @@
 import { auth } from '@clerk/nextjs/server'
 
 import prisma from '@repo/db'
-import { formatDateTime } from './utils'
+import { formatDateTime } from '@/lib/utils'
 
 export async function getUserId() {
 	const { userId } = auth()
@@ -63,6 +63,7 @@ export async function getUserOnRampTransactions() {
 
 export async function getUserTransfers() {
 	const userId = await getUserId()
+	console.log(userId)
 
 	const userTransfers = await prisma.user.findUnique({
 		where: { id: userId },

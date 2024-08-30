@@ -6,7 +6,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { ArrowDownLeft, ArrowUpRight } from 'lucide-react'
 
 export const TransferSchema = z.object({
-	id: z.number(),
+	id: z.string(),
 	amount: z.number(),
 	date: z.date(),
 	time: z.date(),

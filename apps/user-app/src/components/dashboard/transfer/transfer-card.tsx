@@ -9,15 +9,11 @@ import { Input } from '@repo/ui/input'
 import { toast } from '@repo/ui/sonner'
 import { Button } from '@repo/ui/button'
 import { Card, CardContent } from '@repo/ui/card'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@repo/ui/form'
 import { useAppStore } from '@/store/useAppStore'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@repo/ui/form'
 
 const FormSchema = z.object({
-	number: z
-		.string({ required_error: 'Please enter a phone number to continue!' })
-		.refine((value) => /^[1-9][0-9]{9}$/.test(value), {
-			message: 'Phone number must be exactly 10 digits long and cannot start with 0',
-		}),
+	username: z.string({ required_error: 'Please enter a username to continue!' }),
 	amount: z.string({ required_error: 'Amount is required!' }).refine(
 		(value) => {
 			const num = parseFloat(value)
@@ -33,11 +29,12 @@ type FormData = z.infer<typeof FormSchema>
 
 export const TransferCard = () => {
 	const fetchTransfers = useAppStore((state) => state.fetchTransfers)
+	const fetchBalance = useAppStore((state) => state.fetchBalance)
 
 	const form = useForm<FormData>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			number: '',
+			username: '',
 			amount: '',
 		},
 	})
@@ -49,10 +46,11 @@ export const TransferCard = () => {
 				url: '/api/users/transfers',
 				data: {
 					amount: Number(data.amount),
-					transferToNumber: `+91${data.number}`,
+					transferToUsername: data.username,
 				},
 			})
 
+			fetchBalance()
 			fetchTransfers()
 
 			toast.success('Money sent successfully!', {
@@ -76,18 +74,18 @@ export const TransferCard = () => {
 						onSubmit={form.handleSubmit(onSubmit)}
 						className="space-y-3 flex flex-col justify-center w-full"
 					>
-						{/* Number */}
+						{/* Username */}
 						<FormField
-							name="number"
+							name="username"
 							control={form.control}
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Number</FormLabel>
+									<FormLabel>Username</FormLabel>
 									<FormControl>
 										<Input
 											{...field}
 											className="dark:bg-white/5"
-											placeholder="Enter the number of the person"
+											placeholder="Enter the username of the person"
 										/>
 									</FormControl>
 									<FormMessage className="dark:text-red-500" />

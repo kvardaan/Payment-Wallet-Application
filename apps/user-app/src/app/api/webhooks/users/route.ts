@@ -50,14 +50,11 @@ async function handler(request: Request) {
 		const emailAddresses = evt.data.email_addresses
 		const email_address = emailAddresses.length > 0 ? emailAddresses[0].email_address : ''
 
-		const phoneNumbers = evt.data.phone_numbers
-		const phoneNumber = phoneNumbers.length > 0 ? phoneNumbers[0].phone_number : ''
-
 		const response = await prisma.user.create({
 			data: {
 				name: `${evt.data.first_name} ${evt.data.last_name}`,
 				email: email_address,
-				number: phoneNumber,
+				username: evt.data.username,
 				externalId: id as string,
 			},
 		})
