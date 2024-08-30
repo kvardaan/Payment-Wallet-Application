@@ -12,7 +12,7 @@ model User {
   externalId            String                      @unique
   email                 String                      @unique
   name                  String
-  number                String                      @unique
+  username              String                      @unique
   OnRampTransaction     OnRampTransaction[]
   BankAccount           BankAccount[]
   Balance               Balance?
@@ -58,7 +58,7 @@ model Balance {
 
 // Transfers to others
 model Transfer {
-  id                    Int                           @id @default(autoincrement())
+  id                    String                        @id @default(cuid())
   amount                Int
   timestamp             DateTime
   fromUserId            Int
