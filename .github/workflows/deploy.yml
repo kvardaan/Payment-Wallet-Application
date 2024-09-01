@@ -36,7 +36,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./docker-compose.yml
+          file: ./docker-compose.yaml
           push: true
           tags: |
             vardaankhattar/user-app:latest

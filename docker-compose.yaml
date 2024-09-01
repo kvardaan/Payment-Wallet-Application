@@ -1,6 +1,6 @@
 services:
   user-app:
-    image: user-app
+    image: vardaankhattar/user-app:latest
     build:
       context: .
       dockerfile: ./apps/user-app/Dockerfile
@@ -14,7 +14,7 @@ services:
       - my_network
 
   bank_webhook:
-    image: bank_webhook
+    image: vardaankhattar/bank_webhook:latest
     build:
       context: .
       dockerfile: ./apps/bank_webhook/Dockerfile
@@ -26,7 +26,7 @@ services:
       - my_network
 
   merchant-app:
-    image: merchant-app
+    image: vardaankhattar/merchant-app:latest
     build:
       context: .
       dockerfile: ./apps/merchant-app/Dockerfile
