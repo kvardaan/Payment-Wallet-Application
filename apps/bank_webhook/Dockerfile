@@ -13,8 +13,13 @@ RUN npm ci
 # Build the application
 RUN npm run build
 
+ARG PORT
+
+# Set environment variables
+ENV PORT=$PORT
+
 # Expose the port the app runs on
-EXPOSE 3003
+EXPOSE $PORT
 
 # Start the application
 CMD ["npm", "run", "start-bank-webhook"]

@@ -55,6 +55,8 @@ jobs:
           file: ./apps/bank_webhook/Dockerfile
           push: true
           tags: vardaankhattar/bank_webhook:latest
+          build-args: |
+            PORT=${{ secrets.BANK_WEBHOOK_PORT }}
 
       - name: Verify Pushed Images
         run: |

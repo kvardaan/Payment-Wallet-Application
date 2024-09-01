@@ -1,6 +1,6 @@
 services:
   user-app:
-    image: vardaankhattar/user-app:latest
+    image: user-app
     build:
       context: .
       dockerfile: ./apps/user-app/Dockerfile
@@ -14,7 +14,7 @@ services:
       - my_network
 
   bank_webhook:
-    image: vardaankhattar/bank_webhook:latest
+    image: bank_webhook
     build:
       context: .
       dockerfile: ./apps/bank_webhook/Dockerfile
@@ -22,11 +22,12 @@ services:
       - '3003:3003'
     environment:
       - NODE_ENV=production
+      - PORT=3003
     networks:
       - my_network
 
   merchant-app:
-    image: vardaankhattar/merchant-app:latest
+    image: merchant-app
     build:
       context: .
       dockerfile: ./apps/merchant-app/Dockerfile
