@@ -39,9 +39,6 @@ jobs:
           file: ./apps/user-app/Dockerfile
           push: true
           tags: vardaankhattar/user-app:latest
-          build-args: |
-            PORT=${{ secrets.USER_APP_PORT }}
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       - name: Build and Push Docker Images
         uses: docker/build-push-action@v6
@@ -50,9 +47,6 @@ jobs:
           file: ./apps/merchant-app/Dockerfile
           push: true
           tags: vardaankhattar/merchant-app:latest
-          build-args: |
-            PORT=${{ secrets.MERCHANT_APP_PORT }}
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       - name: Build and Push Docker Images
         uses: docker/build-push-action@v6
@@ -61,9 +55,6 @@ jobs:
           file: ./apps/bank_webhook/Dockerfile
           push: true
           tags: vardaankhattar/bank_webhook:latest
-          build-args: |
-            PORT=${{ secrets.BANK_WEBHOOK_PORT }}
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       - name: Verify Pushed Images
         run: |
@@ -98,22 +89,30 @@ jobs:
             #   vardaankhattar/user-app:latest \
             #   npx prisma migrate deploy
 
-            # Run the applications
+            # Run the applications with environment variables
             sudo docker run --restart unless-stopped -d \
               --name user-app \
               -p ${{ secrets.USER_APP_PORT }}:${{ secrets.USER_APP_PORT }} \
               -e PORT=${{ secrets.USER_APP_PORT }} \
               -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
+              -e NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }} \
+              -e CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }} \
+              -e WEBHOOK_SECRET=${{ secrets.WEBHOOK_SECRET }} \
+              -e BANK_WEBHOOK_API=${{ secrets.BANK_WEBHOOK_API }} \
+              -e NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_URL }} \
+              -e NEXT_PUBLIC_CLERK_SIGN_UP_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_UP_URL }} \
+              -e NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL }} \
+              -e NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL }} \
               vardaankhattar/user-app:latest
 
-              sudo docker run --restart unless-stopped -d \
+            sudo docker run --restart unless-stopped -d \
               --name merchant-app \
               -p ${{ secrets.MERCHANT_APP_PORT }}:${{ secrets.MERCHANT_APP_PORT }} \
               -e PORT=${{ secrets.MERCHANT_APP_PORT }} \
               -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
               vardaankhattar/merchant-app:latest
 
-              sudo docker run --restart unless-stopped -d \
+            sudo docker run --restart unless-stopped -d \
               --name bank_webhook \
               -p ${{ secrets.BANK_WEBHOOK_PORT }}:${{ secrets.BANK_WEBHOOK_PORT }} \
               -e PORT=${{ secrets.BANK_WEBHOOK_PORT }} \

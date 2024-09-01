@@ -39,9 +39,6 @@ jobs:
           file: ./apps/user-app/Dockerfile
           push: true
           tags: vardaankhattar/user-app:latest
-          build-args: |
-            PORT=${{ secrets.USER_APP_PORT }}
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       - name: Build and Push Docker Images
         uses: docker/build-push-action@v6
@@ -50,9 +47,6 @@ jobs:
           file: ./apps/merchant-app/Dockerfile
           push: true
           tags: vardaankhattar/merchant-app:latest
-          build-args: |
-            PORT=${{ secrets.MERCHANT_APP_PORT }}
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       - name: Build and Push Docker Images
         uses: docker/build-push-action@v6
@@ -61,9 +55,6 @@ jobs:
           file: ./apps/bank_webhook/Dockerfile
           push: true
           tags: vardaankhattar/bank_webhook:latest
-          build-args: |
-            PORT=${{ secrets.BANK_WEBHOOK_PORT }}
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       - name: Verify Pushed Images
         run: |
