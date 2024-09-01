@@ -74,13 +74,13 @@ jobs:
             sudo docker pull vardaankhattar/merchant-app:latest
             sudo docker pull vardaankhattar/bank_webhook:latest
 
-            sudo docker stop vardaankhattar/user-app:latest || true
-            sudo docker stop vardaankhattar/merchant-app:latest || true
-            sudo docker stop vardaankhattar/bank_webhook:latest || true
+            sudo docker stop user-app || true
+            sudo docker stop merchant-app || true
+            sudo docker stop bank_webhook || true
 
-            sudo docker rm vardaankhattar/user-app:latest || true
-            sudo docker rm vardaankhattar/merchant-app:latest || true
-            sudo docker rm vardaankhattar/bank_webhook:latest || true
+            sudo docker rm user-app || true
+            sudo docker rm merchant-app || true
+            sudo docker rm bank_webhook || true
 
             # Run database migrations if needed
             # Uncomment and customize the following if you have migrations to run
@@ -96,11 +96,11 @@ jobs:
               vardaankhattar/user-app:latest
 
               sudo docker run --restart unless-stopped -d \
-              --name user-app \
+              --name merchant-app \
               -p 3001:3001 \
               vardaankhattar/merchant-app:latest
 
               sudo docker run --restart unless-stopped -d \
-              --name user-app \
+              --name bank_webhook \
               -p 3003:3003 \
               vardaankhattar/bank_webhook:latest
