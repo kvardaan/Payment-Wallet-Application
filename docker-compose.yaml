@@ -1,0 +1,45 @@
+services:
+  user-app:
+    image: user-app
+    build:
+      context: .
+      dockerfile: ./apps/user-app/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - bank_webhook
+    networks:
+      - my_network
+
+  bank_webhook:
+    image: bank_webhook
+    build:
+      context: .
+      dockerfile: ./apps/bank_webhook/Dockerfile
+    ports:
+      - '3003:3003'
+    environment:
+      - NODE_ENV=production
+    networks:
+      - my_network
+
+  merchant-app:
+    image: merchant-app
+    build:
+      context: .
+      dockerfile: ./apps/merchant-app/Dockerfile
+    ports:
+      - '3001:3001'
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    depends_on:
+      - bank_webhook
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
