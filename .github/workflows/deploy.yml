@@ -105,5 +105,5 @@ jobs:
               sudo docker run --restart unless-stopped -d \
               --name bank_webhook \
               -p ${{ secrets.BANK_WEBHOOK_PORT }}:${{ secrets.BANK_WEBHOOK_PORT }} \
-              -e PORT=${{ secrets.BANK_WEBHOOK_PORT }}
+              -e PORT=${{ secrets.BANK_WEBHOOK_PORT }} \
               vardaankhattar/bank_webhook:latest
