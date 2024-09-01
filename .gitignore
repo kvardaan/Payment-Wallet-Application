@@ -36,4 +36,4 @@ yarn-error.log*
 # ui
 dist/
 
-# For testing CI/CD
+# For testing CD
