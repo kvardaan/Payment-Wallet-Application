@@ -36,12 +36,25 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./docker-compose.yaml
+          file: ./apps/user-app/Dockerfile
           push: true
-          tags: |
-            vardaankhattar/user-app:latest
-            vardaankhattar/merchant-app:latest
-            vardaankhattar/bank_webhook:latest
+          tags: vardaankhattar/user-app:latest
+
+      - name: Build and Push Docker Images
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./apps/merchant-app/Dockerfile
+          push: true
+          tags: vardaankhattar/merchant-app:latest
+
+      - name: Build and Push Docker Images
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./apps/bank_webhook/Dockerfile
+          push: true
+          tags: vardaankhattar/bank_webhook:latest
 
       - name: Verify Pushed Images
         run: |
