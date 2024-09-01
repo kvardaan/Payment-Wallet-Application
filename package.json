@@ -7,7 +7,10 @@
 		"type-check": "turbo type-check",
 		"clean": "turbo clean",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
-		"db:generate": "cd packages/database && npx prisma generate && cd ../.."
+		"db:generate": "cd packages/database && npx prisma generate && cd ../..",
+		"start-user-app": "cd ./apps/user-app && npm run start",
+		"start-merchant-app": "cd ./apps/merchant-app && npm run start",
+		"start-bank-webhook": "cd ./apps/bank_webhook && npm run start"
 	},
 	"devDependencies": {
 		"@repo/eslint-config": "*",

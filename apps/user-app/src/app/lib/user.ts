@@ -20,6 +20,8 @@ export async function getUserId() {
 export async function getUserBalance() {
 	const userId = await getUserId()
 
+	if (!userId) return
+
 	const userBalance = await prisma.balance.findFirst({
 		where: { userId },
 	})
@@ -32,6 +34,8 @@ export async function getUserBalance() {
 
 export async function getUserBankAccounts() {
 	const userId = await getUserId()
+
+	if (!userId) return
 
 	const userBankAccounts = await prisma.bankAccount.findMany({
 		where: { userId },
@@ -46,6 +50,8 @@ export async function getUserBankAccounts() {
 
 export async function getUserOnRampTransactions() {
 	const userId = await getUserId()
+
+	if (!userId) return
 
 	const onRampTransactions = await prisma.onRampTransaction.findMany({
 		where: { userId },
@@ -63,7 +69,8 @@ export async function getUserOnRampTransactions() {
 
 export async function getUserTransfers() {
 	const userId = await getUserId()
-	console.log(userId)
+
+	if (!userId) return
 
 	const userTransfers = await prisma.user.findUnique({
 		where: { id: userId },

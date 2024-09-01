@@ -4,7 +4,6 @@ import { ClerkProvider } from '@clerk/nextjs'
 
 import './globals.css'
 import '@repo/ui/styles.css'
-import { AppProvider } from '@/store/AppProvider'
 import { cn, inter, ThemeProvider } from '@repo/ui/components'
 
 export const metadata: Metadata = {
@@ -20,12 +19,10 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
 		<ClerkProvider>
 			<html lang="en">
 				<body className={cn(inter.className, 'antialiased')}>
-					<AppProvider>
-						<ThemeProvider>
-							{children}
-							<Toaster richColors position="top-center" closeButton />
-						</ThemeProvider>
-					</AppProvider>
+					<ThemeProvider>
+						{children}
+						<Toaster richColors position="top-center" closeButton />
+					</ThemeProvider>
 				</body>
 			</html>
 		</ClerkProvider>
