@@ -39,6 +39,9 @@ jobs:
           file: ./apps/user-app/Dockerfile
           push: true
           tags: vardaankhattar/user-app:latest
+          build-args: |
+            PORT=${{ secrets.USER_APP_PORT }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       - name: Build and Push Docker Images
         uses: docker/build-push-action@v6
@@ -47,6 +50,9 @@ jobs:
           file: ./apps/merchant-app/Dockerfile
           push: true
           tags: vardaankhattar/merchant-app:latest
+          build-args: |
+            PORT=${{ secrets.MERCHANT_APP_PORT }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       - name: Build and Push Docker Images
         uses: docker/build-push-action@v6
@@ -57,6 +63,7 @@ jobs:
           tags: vardaankhattar/bank_webhook:latest
           build-args: |
             PORT=${{ secrets.BANK_WEBHOOK_PORT }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       - name: Verify Pushed Images
         run: |
@@ -94,16 +101,21 @@ jobs:
             # Run the applications
             sudo docker run --restart unless-stopped -d \
               --name user-app \
-              -p 3000:3000 \
+              -p ${{ secrets.USER_APP_PORT }}:${{ secrets.USER_APP_PORT }} \
+              -e PORT=${{ secrets.USER_APP_PORT }} \
+              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
               vardaankhattar/user-app:latest
 
               sudo docker run --restart unless-stopped -d \
               --name merchant-app \
-              -p 3001:3001 \
+              -p ${{ secrets.MERCHANT_APP_PORT }}:${{ secrets.MERCHANT_APP_PORT }} \
+              -e PORT=${{ secrets.MERCHANT_APP_PORT }} \
+              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
               vardaankhattar/merchant-app:latest
 
               sudo docker run --restart unless-stopped -d \
               --name bank_webhook \
               -p ${{ secrets.BANK_WEBHOOK_PORT }}:${{ secrets.BANK_WEBHOOK_PORT }} \
               -e PORT=${{ secrets.BANK_WEBHOOK_PORT }} \
+              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
               vardaankhattar/bank_webhook:latest

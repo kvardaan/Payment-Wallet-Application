@@ -13,8 +13,16 @@ RUN npm ci
 # Build the application
 RUN npm run build
 
-# Expose the port
-EXPOSE 3000
+# Add ARG instruction for build-time variable without a default value
+ARG PORT
+ARG DATABASE_URL
+
+# Set environment variables
+ENV PORT=$PORT
+ENV DATABASE_URL=$DATABASE_URL
+
+# Expose the port the app runs on
+EXPOSE $PORT
 
 # Start the application
 CMD ["npm", "run", "start-user-app"]
