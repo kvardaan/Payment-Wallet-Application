@@ -13,6 +13,7 @@ model User {
   email                 String                      @unique
   name                  String
   username              String                      @unique
+  imageUrl              String?
   OnRampTransaction     OnRampTransaction[]
   BankAccount           BankAccount[]
   Balance               Balance?
@@ -30,41 +31,53 @@ model BankAccount {
 }
 
 model Merchant {
-  id                    Int                          @id @default(autoincrement())
-  email                 String                       @unique
+  id                    Int                         @id @default(autoincrement())
+  externalId            String                      @unique
+  email                 String                      @unique
   name                  String
+  username              String                      @unique
+  imageUrl              String?
+  Balance               MerchantBalance?
 }
 
 // On Ramp Transactions / Wallet Additions
 model OnRampTransaction {
-  id                    Int                           @id @default(autoincrement())
+  id                    Int                         @id @default(autoincrement())
   userId                Int
-  status                OnRampStatus                  @default(Processing)
-  token                 String                        @unique
+  status                OnRampStatus                @default(Processing)
+  token                 String                      @unique
   provider              String
   amount                Int
   startTime             DateTime
-  user                  User                          @relation(fields: [userId], references: [id])
+  user                  User                        @relation(fields: [userId], references: [id])
 }
 
-// Wallet Balance
+// User's Wallet Balance
 model Balance {
-  id                    Int                           @id @default(autoincrement())
-  userId                Int                           @unique
+  id                    Int                         @id @default(autoincrement())
+  userId                Int                         @unique
   amount                Int
   locked                Int
-  user                  User                          @relation(fields: [userId], references: [id])
+  user                  User                        @relation(fields: [userId], references: [id])
+}
+
+// Merchant's Wallet Balance
+model MerchantBalance {
+  id                    Int                         @id @default(autoincrement())
+  merchantId            Int                         @unique
+  amount                Int
+  merchant              Merchant                    @relation(fields: [merchantId], references: [id])
 }
 
 // Transfers to others
 model Transfer {
-  id                    String                        @id @default(cuid())
+  id                    String                      @id @default(cuid())
   amount                Int
   timestamp             DateTime
   fromUserId            Int
-  fromUser              User                          @relation(name: "FromUserRelation", fields: [fromUserId], references: [id])
+  fromUser              User                        @relation(name: "FromUserRelation", fields: [fromUserId], references: [id])
   toUserId              Int
-  toUser                User                          @relation(name: "ToUserRelation", fields: [toUserId], references: [id])
+  toUser                User                        @relation(name: "ToUserRelation", fields: [toUserId], references: [id])
 }
 
 enum OnRampStatus {
