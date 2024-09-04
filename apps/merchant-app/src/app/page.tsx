@@ -1,9 +1,19 @@
-import { Button } from '@repo/ui/components'
+import { redirect } from 'next/navigation'
 
-export default function Page() {
+import { getUserId } from '@/lib/user'
+import { Footer } from '@/components/footer'
+import { AppBar } from '@/components/app-bar'
+
+export default async function Page() {
+	const userId = await getUserId()
+
+	if (userId) return redirect('/overview')
+
 	return (
-		<main className="flex items-center justify-center h-screen">
-			<Button variant="secondary">Merchant App</Button>
-		</main>
+		<div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
+			<AppBar />
+			<div className="flex flex-col max-w-full overflow-hidden"></div>
+			<Footer />
+		</div>
 	)
 }
