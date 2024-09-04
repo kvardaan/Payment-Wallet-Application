@@ -45,20 +45,33 @@ async function handler(request: Request) {
 
 	const eventType: string = evt.type
 
-	if (eventType === 'user.created') {
-		const { id } = evt.data
-		const emailAddresses = evt.data.email_addresses
-		const email_address = emailAddresses.length > 0 ? emailAddresses[0].email_address : ''
+	const { id } = evt.data
+	const emailAddresses = evt.data.email_addresses
+	const email_address: string = emailAddresses.length > 0 ? emailAddresses[0].email_address : ''
 
+	if (eventType === 'user.created') {
 		const response = await prisma.user.create({
 			data: {
 				name: `${evt.data.first_name} ${evt.data.last_name}`,
 				email: email_address,
-				username: evt.data.username,
+				username: evt.data.username as string,
+				imageUrl: evt.data.image_url as string,
 				externalId: id as string,
 			},
 		})
+		return NextResponse.json(response)
+	}
 
+	if (eventType === 'user.updated') {
+		const response = await prisma.user.update({
+			where: { externalId: id as string },
+			data: {
+				name: `${evt.data.first_name} ${evt.data.last_name}`,
+				email: email_address,
+				username: evt.data.username as string,
+				imageUrl: evt.data.image_url as string,
+			},
+		})
 		return NextResponse.json(response)
 	}
 }

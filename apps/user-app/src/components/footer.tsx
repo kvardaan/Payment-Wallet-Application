@@ -13,7 +13,7 @@ export function Footer() {
 						className="flex gap-2 font-medium text-sm md:text-lg items-center"
 					>
 						Wallet Application
-						<span className="text-white/50">{new Date().getFullYear()}</span>
+						<span className="text-black/50 dark:text-white/50">{new Date().getFullYear()}</span>
 					</Link>
 				</div>
 				<div className="flex flex-col md:!flex-row justify-between gap-2 md:gap-4">

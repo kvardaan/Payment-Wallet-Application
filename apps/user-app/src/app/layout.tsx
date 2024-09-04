@@ -1,13 +1,12 @@
-import { Toaster } from 'sonner'
 import type { Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
 
 import './globals.css'
 import '@repo/ui/styles.css'
-import { cn, inter, ThemeProvider } from '@repo/ui/components'
+import { cn, inter, ThemeProvider, Toaster } from '@repo/ui/components'
 
 export const metadata: Metadata = {
-	title: 'Payment Wallet Application',
+	title: 'User | Payment Wallet Application',
 }
 
 interface RootLayoutProps {
@@ -21,7 +20,7 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
 				<body className={cn(inter.className, 'antialiased')}>
 					<ThemeProvider>
 						{children}
-						<Toaster richColors position="top-center" closeButton />
+						<Toaster richColors closeButton />
 					</ThemeProvider>
 				</body>
 			</html>
