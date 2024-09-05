@@ -13,7 +13,7 @@ model User {
   email                 String                      @unique
   name                  String
   username              String                      @unique
-  imageUrl              String?
+  imageUrl              String
   OnRampTransaction     OnRampTransaction[]
   BankAccount           BankAccount[]
   Balance               Balance?
@@ -36,11 +36,21 @@ model Merchant {
   email                 String                      @unique
   name                  String
   username              String                      @unique
-  imageUrl              String?
+  imageUrl              String
   Balance               MerchantBalance?
+  BankAccount           MerchantBankAccount?
 }
 
-// On Ramp Transactions / Wallet Additions
+// Merchant's Bank Account(s)
+model MerchantBankAccount {
+  id                    Int                         @id @default(autoincrement())
+  bankName              String
+  accountNumber         Int                         @unique
+  merchantId            Int                         @unique
+  merchant              Merchant                    @relation(fields: [merchantId], references: [id])
+}
+
+// User's On Ramp Transactions / Wallet Additions
 model OnRampTransaction {
   id                    Int                         @id @default(autoincrement())
   userId                Int
@@ -56,8 +66,8 @@ model OnRampTransaction {
 model Balance {
   id                    Int                         @id @default(autoincrement())
   userId                Int                         @unique
-  amount                Int
-  locked                Int
+  amount                Int                         @default(0)
+  locked                Int                         @default(0)
   user                  User                        @relation(fields: [userId], references: [id])
 }
 
@@ -65,11 +75,11 @@ model Balance {
 model MerchantBalance {
   id                    Int                         @id @default(autoincrement())
   merchantId            Int                         @unique
-  amount                Int
+  amount                Int                         @default(0)
   merchant              Merchant                    @relation(fields: [merchantId], references: [id])
 }
 
-// Transfers to others
+// User's Transfers
 model Transfer {
   id                    String                      @id @default(cuid())
   amount                Int

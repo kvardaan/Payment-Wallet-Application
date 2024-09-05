@@ -12,25 +12,19 @@ const prisma: ReturnType<typeof prismaClientSingleton> =
 	globalThis.prismaGlobal ?? prismaClientSingleton()
 
 prisma.$use(async (params, next) => {
-	const result = await next(params)
 	if (params.model === 'User' && params.action === 'create') {
-		const balance = await prisma.balance.create({
-			data: {
-				userId: result.id as number,
-				amount: 0,
-				locked: 0,
-			},
+		const result = await next(params)
+		await prisma.balance.create({
+			data: { userId: result.id as number },
 		})
 
 		return result
 	}
 
 	if (params.model === 'Merchant' && params.action === 'create') {
-		const balance = await prisma.merchantBalance.create({
-			data: {
-				merchantId: result.id as number,
-				amount: 0,
-			},
+		const result = await next(params)
+		await prisma.merchantBalance.create({
+			data: { merchantId: result.id as number },
 		})
 
 		return result
