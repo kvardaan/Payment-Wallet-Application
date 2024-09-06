@@ -1,13 +1,13 @@
 import { redirect } from 'next/navigation'
 
-import { getUserId } from '@/lib/user'
+import { getMerchantId } from '@/lib/user'
 import { Footer } from '@/components/footer'
 import { AppBar } from '@/components/app-bar'
 
 export default async function Page() {
-	const userId = await getUserId()
+	const merchantId = await getMerchantId()
 
-	if (userId) return redirect('/overview')
+	if (merchantId) return redirect('/overview')
 
 	return (
 		<div className="grid grid-rows-[auto_1fr_auto] min-h-screen">

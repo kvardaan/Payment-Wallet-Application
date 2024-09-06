@@ -83,6 +83,12 @@ export async function getUserTransfers() {
 							name: true,
 						},
 					},
+					toMerchant: {
+						select: {
+							id: true,
+							name: true,
+						},
+					},
 				},
 			},
 			receivedTransfers: {
@@ -108,8 +114,8 @@ export async function getUserTransfers() {
 			time: formatDateTime(transfer.timestamp.toLocaleString()).split(',')[1] as unknown as Date,
 			timestamp: transfer.timestamp,
 			type: 'sent' as const,
-			otherPartyId: transfer.toUserId,
-			name: transfer.toUser.name,
+			otherPartyId: transfer.toUserId || transfer.toMerchantId,
+			name: transfer.toUser?.name || transfer.toMerchant?.name,
 		})),
 		...userTransfers.receivedTransfers.map((transfer) => ({
 			id: transfer.id,

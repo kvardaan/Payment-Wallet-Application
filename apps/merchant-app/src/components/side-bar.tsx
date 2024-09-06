@@ -1,7 +1,7 @@
 'use client'
 
 import { useClerk } from '@clerk/nextjs'
-import { ArrowLeftRight, Handshake, Home, LogOut, PlusCircle } from 'lucide-react'
+import { ArrowLeftRight, FileCheck2, Home, LogOut } from 'lucide-react'
 
 import { Button } from '@repo/ui/components'
 import { SideBarItem } from '@repo/ui/components'
@@ -13,13 +13,16 @@ export function SideBar() {
 		<div id="sidebar" className="hidden lg:!flex flex-col justify-between w-40 gap-x-2">
 			<div className="w-full flex flex-col justify-center items-center gap-x-2 gap-y-3">
 				<SideBarItem href="/overview" title="Overview" icon={<Home className="w-4 h-4" />} />
-				<SideBarItem href="/" title="Add Money" icon={<PlusCircle className="w-4 h-4" />} />
 				<SideBarItem
-					href="/transactions"
-					title="Transactions"
+					href="/payments"
+					title="Payments"
 					icon={<ArrowLeftRight className="w-4 h-4" />}
 				/>
-				<SideBarItem href="/transfer" title="Transfer" icon={<Handshake className="w-4 h-4" />} />
+				<SideBarItem
+					href="/settlements"
+					title="Settlements"
+					icon={<FileCheck2 className="w-4 h-4" />}
+				/>
 			</div>
 			<Button
 				variant="ghost"

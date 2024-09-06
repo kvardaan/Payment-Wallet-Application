@@ -19,6 +19,7 @@ model User {
   Balance               Balance?
   sentTransfers         Transfer[]                  @relation(name: "FromUserRelation")
   receivedTransfers     Transfer[]                  @relation(name: "ToUserRelation")
+  merchantPayments      MerchantPayments[]
 }
 
 // User's Bank Account(s)
@@ -28,26 +29,6 @@ model BankAccount {
   accountNumber         Int                         @unique
   userId                Int                         
   user                  User                        @relation(fields: [userId], references: [id])
-}
-
-model Merchant {
-  id                    Int                         @id @default(autoincrement())
-  externalId            String                      @unique
-  email                 String                      @unique
-  name                  String
-  username              String                      @unique
-  imageUrl              String
-  Balance               MerchantBalance?
-  BankAccount           MerchantBankAccount?
-}
-
-// Merchant's Bank Account(s)
-model MerchantBankAccount {
-  id                    Int                         @id @default(autoincrement())
-  bankName              String
-  accountNumber         Int                         @unique
-  merchantId            Int                         @unique
-  merchant              Merchant                    @relation(fields: [merchantId], references: [id])
 }
 
 // User's On Ramp Transactions / Wallet Additions
@@ -71,6 +52,42 @@ model Balance {
   user                  User                        @relation(fields: [userId], references: [id])
 }
 
+// User's Transfers
+model Transfer {
+  id                    String                      @id @default(cuid())
+  amount                Int
+  timestamp             DateTime
+  fromUserId            Int
+  fromUser              User                        @relation(name: "FromUserRelation", fields: [fromUserId], references: [id])
+  toUserId              Int?
+  toUser                User?                        @relation(name: "ToUserRelation", fields: [toUserId], references: [id])
+  toMerchantId          Int?
+  toMerchant            Merchant?                    @relation(fields: [toMerchantId], references: [id])
+}
+
+model Merchant {
+  id                    Int                         @id @default(autoincrement())
+  externalId            String                      @unique
+  email                 String                      @unique
+  name                  String
+  username              String                      @unique
+  imageUrl              String
+  Balance               MerchantBalance?
+  BankAccount           MerchantBankAccount?
+  Payments              MerchantPayments[]
+  receivedTransfers     Transfer[]
+}
+
+// Merchant's Bank Account(s)
+model MerchantBankAccount {
+  id                    Int                         @id @default(autoincrement())
+  bankName              String
+  accountNumber         Int                         @unique
+  balance               Int                         @default(0)
+  merchantId            Int                         @unique
+  merchant              Merchant                    @relation(fields: [merchantId], references: [id])
+}
+
 // Merchant's Wallet Balance
 model MerchantBalance {
   id                    Int                         @id @default(autoincrement())
@@ -79,15 +96,15 @@ model MerchantBalance {
   merchant              Merchant                    @relation(fields: [merchantId], references: [id])
 }
 
-// User's Transfers
-model Transfer {
+// Merchant's Payments (Receivables)
+model MerchantPayments {
   id                    String                      @id @default(cuid())
+  merchantId            Int                         
+  merchant              Merchant                    @relation(fields: [merchantId],references: [id])
   amount                Int
   timestamp             DateTime
-  fromUserId            Int
-  fromUser              User                        @relation(name: "FromUserRelation", fields: [fromUserId], references: [id])
-  toUserId              Int
-  toUser                User                        @relation(name: "ToUserRelation", fields: [toUserId], references: [id])
+  userId                Int
+  user                  User                        @relation(fields: [userId],references: [id])
 }
 
 enum OnRampStatus {

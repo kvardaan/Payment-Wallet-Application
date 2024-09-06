@@ -1,8 +1,8 @@
 'use client'
 
-import { Menu } from 'lucide-react'
+import { FileCheck2, Menu } from 'lucide-react'
 import { SignedIn, useClerk } from '@clerk/nextjs'
-import { ArrowLeftRight, Handshake, Home, LogOut, PlusCircle } from 'lucide-react'
+import { ArrowLeftRight, Home, LogOut } from 'lucide-react'
 
 import Clerk from '@/components/clerk'
 import { Button } from '@repo/ui/components'
@@ -32,19 +32,14 @@ export default function SideModal() {
 									icon={<Home className="w-4 h-4" />}
 								/>
 								<SideBarItem
-									href="/add-money"
-									title="Add Money"
-									icon={<PlusCircle className="w-4 h-4" />}
-								/>
-								<SideBarItem
-									href="/transactions"
-									title="Transactions"
+									href="/payments"
+									title="Payments"
 									icon={<ArrowLeftRight className="w-4 h-4" />}
 								/>
 								<SideBarItem
-									href="/transfer"
-									title="Transfer"
-									icon={<Handshake className="w-4 h-4" />}
+									href="/settlements"
+									title="Settlements"
+									icon={<FileCheck2 className="w-4 h-4" />}
 								/>
 							</div>
 						</SignedIn>
