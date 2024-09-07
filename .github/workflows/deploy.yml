@@ -95,8 +95,8 @@ jobs:
               -p ${{ secrets.USER_APP_PORT }}:${{ secrets.USER_APP_PORT }} \
               -e PORT=${{ secrets.USER_APP_PORT }} \
               -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
-              -e NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }} \
-              -e CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }} \
+              -e NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.USER_NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }} \
+              -e CLERK_SECRET_KEY=${{ secrets.USER_CLERK_SECRET_KEY }} \
               -e WEBHOOK_SECRET=${{ secrets.USER_WEBHOOK_SECRET }} \
               -e BANK_WEBHOOK_API=${{ secrets.BANK_WEBHOOK_API }} \
               -e NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_URL }} \
@@ -110,8 +110,8 @@ jobs:
               -p ${{ secrets.MERCHANT_APP_PORT }}:${{ secrets.MERCHANT_APP_PORT }} \
               -e PORT=${{ secrets.MERCHANT_APP_PORT }} \
               -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
-              -e NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }} \
-              -e CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }} \
+              -e NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.MERCHANT_NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }} \
+              -e CLERK_SECRET_KEY=${{ secrets.MERCHANT_CLERK_SECRET_KEY }} \
               -e WEBHOOK_SECRET=${{ secrets.MERCHANT_WEBHOOK_SECRET }} \
               -e BANK_WEBHOOK_API=${{ secrets.BANK_WEBHOOK_API }} \
               -e NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_URL }} \
