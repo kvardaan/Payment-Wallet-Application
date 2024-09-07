@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { HttpStatusCode } from 'axios'
+import { StatusCodes } from 'http-status-codes'
 import { NextRequest, NextResponse } from 'next/server'
 
 import prisma from '@repo/db'
@@ -16,15 +16,12 @@ export async function POST(request: NextRequest) {
 	const accoutData = AccountSchema.safeParse(body)
 
 	if (!userId)
-		return NextResponse.json({ error: 'Unauthorized' }, { status: HttpStatusCode.Unauthorized })
+		return NextResponse.json({ error: 'Unauthorized' }, { status: StatusCodes.UNAUTHORIZED })
 
 	if (!accoutData.success) {
 		console.log(accoutData.error)
 
-		return NextResponse.json(
-			{ error: accoutData.error.name },
-			{ status: HttpStatusCode.BadRequest }
-		)
+		return NextResponse.json({ error: accoutData.error.name }, { status: StatusCodes.BAD_REQUEST })
 	}
 
 	const { accountNumber, bankName } = accoutData.data
@@ -42,7 +39,7 @@ export async function POST(request: NextRequest) {
 			if (error.code === 'P2002') {
 				return NextResponse.json(
 					{ error: 'Bank account already exists.' },
-					{ status: HttpStatusCode.Conflict } // 409 Conflict
+					{ status: StatusCodes.CONFLICT } // 409 Conflict
 				)
 			}
 		}
@@ -51,7 +48,7 @@ export async function POST(request: NextRequest) {
 		console.log(`API: "${error}`)
 		return NextResponse.json(
 			{ error: 'An error occurred while adding the Bank Account.' },
-			{ status: HttpStatusCode.InternalServerError }
+			{ status: StatusCodes.INTERNAL_SERVER_ERROR }
 		)
 	}
 }

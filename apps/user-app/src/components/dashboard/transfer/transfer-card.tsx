@@ -58,11 +58,8 @@ export const TransferCard = () => {
 			})
 		} catch (error) {
 			console.log(error)
-			if (axios.isAxiosError(error)) {
-				toast.error(error.response?.data?.error || 'Unknown error')
-			} else {
-				toast.error('An unexpected error occurred. Please try again.')
-			}
+
+			toast.error('An unexpected error occurred. Please try again.')
 		}
 	}
 

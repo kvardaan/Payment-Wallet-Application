@@ -63,11 +63,9 @@ export const AddBankAccountCard = () => {
 
 			fetchBankAccount()
 		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				toast.error(error.response?.data?.error || 'Unknown error')
-			} else {
-				toast.error('An unexpected error occurred. Please try again.')
-			}
+			console.log(error)
+
+			toast.error('An unexpected error occurred. Please try again.')
 		}
 	}
 

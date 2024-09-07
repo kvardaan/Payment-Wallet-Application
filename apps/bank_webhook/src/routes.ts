@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { StatusCodes } from 'http-status-codes'
 import { Router, Response, Request, request } from 'express'
 
 import prisma from '@repo/db'
@@ -15,7 +16,7 @@ const PaymentSchema = z.object({
 router.post('/web-hook', async (request: Request, response: Response) => {
 	const paymentData = PaymentSchema.safeParse(request.body)
 
-	if (!paymentData.success) return response.status(400)
+	if (!paymentData.success) return response.status(StatusCodes.BAD_REQUEST)
 
 	const { userId, amount, token } = paymentData.data
 
@@ -48,7 +49,9 @@ router.post('/web-hook', async (request: Request, response: Response) => {
 	} catch (error) {
 		console.error(error)
 
-		response.status(411).json({ message: 'Error while processing webhook' })
+		response
+			.status(StatusCodes.INTERNAL_SERVER_ERROR)
+			.json({ message: 'Error while processing webhook' })
 	}
 })
 

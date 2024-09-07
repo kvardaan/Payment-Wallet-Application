@@ -3,9 +3,11 @@
 import { auth } from '@clerk/nextjs/server'
 
 import prisma from '@repo/db'
-import { date } from 'zod'
 import { formatDateTime } from './utils'
 
+/**
+ * Gets the merchant id
+ */
 export async function getMerchantId() {
 	const { userId } = auth()
 
@@ -18,6 +20,9 @@ export async function getMerchantId() {
 	return merchant?.id
 }
 
+/**
+ * Gets the merchant balance
+ */
 export async function getMerchantBalance() {
 	const merchantId = await getMerchantId()
 
@@ -30,6 +35,9 @@ export async function getMerchantBalance() {
 	}
 }
 
+/**
+ * Gets the merchant bank account
+ */
 export async function getMerchantBankAccount() {
 	const merchantId = await getMerchantId()
 
@@ -45,10 +53,13 @@ export async function getMerchantBankAccount() {
 	}
 }
 
+/**
+ * Gets the merchant payments (receivables)
+ */
 export async function getMerchantPayments() {
 	const merchantId = await getMerchantId()
 
-	const merchantPayments = await prisma.merchantPayments.findMany({
+	const merchantPayments = await prisma.merchantPayment.findMany({
 		where: { merchantId },
 		include: {
 			user: {
@@ -70,4 +81,57 @@ export async function getMerchantPayments() {
 		userId: payment.userId,
 		customerName: payment.user.name,
 	}))
+}
+
+/**
+ * Gets the settlement amount for the unsettled payments
+ */
+export async function getSettlementAmount() {
+	const merchantId = await getMerchantId()
+
+	const unsettledPayments = await prisma.merchantPayment.findMany({
+		where: {
+			merchantId,
+			settlementId: null,
+		},
+	})
+
+	if (unsettledPayments.length === 0) return 0
+
+	const totalAmountToBeSettled = unsettledPayments.reduce((sum, payment) => sum + payment.amount, 0)
+
+	return totalAmountToBeSettled / 100
+}
+
+/**
+ * Gets the merchant settlements
+ */
+export async function getMerchantSettlements() {
+	const merchantId = await getMerchantId()
+
+	const merchantSettlements = await prisma.merchantSettlement.findMany({
+		where: { merchantId },
+	})
+
+	return merchantSettlements
+}
+
+/**
+ * Gets the unsettled payments for the day
+ */
+export async function getDailyPayments(merchantId: number) {
+	const date = new Date()
+	date.setHours(0, 0, 0, 0) // gets the start of the day
+
+	const payments = await prisma.merchantPayment.findMany({
+		where: {
+			merchantId,
+			settlementId: null,
+			timestamp: {
+				gte: date,
+			},
+		},
+	})
+
+	return payments
 }

@@ -52,12 +52,10 @@ export const AddMoneyCard = () => {
 			toast.success('Transaction started successfully!', {
 				description: `${new Date().toLocaleString()}`,
 			})
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				toast.error(error.response?.data?.error || 'Unknown error')
-			} else {
-				toast.error('An unexpected error occurred. Please try again.')
-			}
+		} catch (error: any) {
+			console.log(error)
+
+			toast.error('An unexpected error occurred. Please try again.')
 		}
 	}
 

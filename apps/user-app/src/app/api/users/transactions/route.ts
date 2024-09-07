@@ -1,5 +1,6 @@
 import { z } from 'zod'
-import axios, { HttpStatusCode } from 'axios'
+import axios from 'axios'
+import { StatusCodes } from 'http-status-codes'
 import { NextRequest, NextResponse } from 'next/server'
 
 import prisma from '@repo/db'
@@ -18,14 +19,14 @@ export async function POST(request: NextRequest) {
 	const transactionData = TransactionSchema.safeParse(body)
 
 	if (!userId)
-		return NextResponse.json({ error: 'Unauthorized' }, { status: HttpStatusCode.Unauthorized })
+		return NextResponse.json({ error: 'Unauthorized' }, { status: StatusCodes.UNAUTHORIZED })
 
 	if (!transactionData.success) {
 		console.log(transactionData.error)
 
 		return NextResponse.json(
 			{ error: transactionData.error.name },
-			{ status: HttpStatusCode.BadRequest }
+			{ status: StatusCodes.BAD_REQUEST }
 		)
 	}
 
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest) {
 			},
 		})
 
-		const bankWebHookResponse = await axios({
+		const bankWebHookResponse: any = await axios({
 			method: 'post',
 			url: `${process.env.BANK_WEBHOOK_API}/web-hook`,
 			data: {
@@ -54,16 +55,18 @@ export async function POST(request: NextRequest) {
 			},
 		})
 
+		console.log(bankWebHookResponse)
+
 		return NextResponse.json({
 			message: 'Transaction started successfully!',
-			status: bankWebHookResponse.data.status,
+			status: bankWebHookResponse.data.status as string,
 		})
 	} catch (error) {
 		console.log(`API: "${error}`)
 
 		return NextResponse.json(
 			{ error: 'An error occured while starting the transaction.' },
-			{ status: HttpStatusCode.InternalServerError }
+			{ status: StatusCodes.INTERNAL_SERVER_ERROR }
 		)
 	}
 }

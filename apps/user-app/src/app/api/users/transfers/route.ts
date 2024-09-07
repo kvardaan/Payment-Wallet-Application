@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { HttpStatusCode } from 'axios'
+import { StatusCodes } from 'http-status-codes'
 import { NextRequest, NextResponse } from 'next/server'
 
 import prisma from '@repo/db'
@@ -16,14 +16,14 @@ export async function POST(request: NextRequest) {
 	const transferData = TransferSchema.safeParse(body)
 
 	if (!userId)
-		return NextResponse.json({ error: 'Unauthorized' }, { status: HttpStatusCode.Unauthorized })
+		return NextResponse.json({ error: 'Unauthorized' }, { status: StatusCodes.UNAUTHORIZED })
 
 	if (!transferData.success) {
 		console.log(transferData.error)
 
 		return NextResponse.json(
 			{ error: transferData.error.name },
-			{ status: HttpStatusCode.BadRequest }
+			{ status: StatusCodes.BAD_REQUEST }
 		)
 	}
 
@@ -38,13 +38,13 @@ export async function POST(request: NextRequest) {
 		}))
 
 	if (!transferTo)
-		return NextResponse.json({ error: 'User not found!' }, { status: HttpStatusCode.BadRequest })
+		return NextResponse.json({ error: 'User not found!' }, { status: StatusCodes.BAD_REQUEST })
 
 	// check: self-transfer
 	if (userId === transferTo?.id)
 		return NextResponse.json(
 			{ error: 'Self-transfers not allowed!' },
-			{ status: HttpStatusCode.Forbidden }
+			{ status: StatusCodes.FORBIDDEN }
 		)
 
 	// check: if the user initiating the transfer has sufficient funds or not
@@ -53,10 +53,7 @@ export async function POST(request: NextRequest) {
 	})
 
 	if (!fromUserBalance || fromUserBalance.amount < amount * 100)
-		return NextResponse.json(
-			{ error: 'Insufficient Funds!' },
-			{ status: HttpStatusCode.BadRequest }
-		)
+		return NextResponse.json({ error: 'Insufficient Funds!' }, { status: StatusCodes.BAD_REQUEST })
 
 	try {
 		// check: if the payment made is to a merchant or a user
@@ -99,7 +96,7 @@ export async function POST(request: NextRequest) {
 				})
 
 				// create: merchant payment for the merchant receiving the money
-				await transaction.merchantPayments.create({
+				await transaction.merchantPayment.create({
 					data: {
 						merchantId: transferToMerchant?.id,
 						amount: amount * 100,
@@ -120,13 +117,13 @@ export async function POST(request: NextRequest) {
 			})
 		}
 
-		return NextResponse.json({ message: 'Transfer Success!' }, { status: HttpStatusCode.Created })
+		return NextResponse.json({ message: 'Transfer Success!' }, { status: StatusCodes.CREATED })
 	} catch (error) {
 		console.log(`API: "${error}`)
 
 		return NextResponse.json(
 			{ error: 'An error occured while starting the transfer.' },
-			{ status: HttpStatusCode.InternalServerError }
+			{ status: StatusCodes.INTERNAL_SERVER_ERROR }
 		)
 	}
 }

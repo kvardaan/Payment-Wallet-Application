@@ -19,7 +19,7 @@ model User {
   Balance               Balance?
   sentTransfers         Transfer[]                  @relation(name: "FromUserRelation")
   receivedTransfers     Transfer[]                  @relation(name: "ToUserRelation")
-  merchantPayments      MerchantPayments[]
+  merchantPayment       MerchantPayment[]
 }
 
 // User's Bank Account(s)
@@ -74,8 +74,9 @@ model Merchant {
   imageUrl              String
   Balance               MerchantBalance?
   BankAccount           MerchantBankAccount?
-  Payments              MerchantPayments[]
+  Payments              MerchantPayment[]
   receivedTransfers     Transfer[]
+  Settlements           MerchantSettlement[]
 }
 
 // Merchant's Bank Account(s)
@@ -97,18 +98,37 @@ model MerchantBalance {
 }
 
 // Merchant's Payments (Receivables)
-model MerchantPayments {
+model MerchantPayment {
   id                    String                      @id @default(cuid())
   merchantId            Int                         
-  merchant              Merchant                    @relation(fields: [merchantId],references: [id])
+  merchant              Merchant                    @relation(fields: [merchantId], references: [id])
   amount                Int
   timestamp             DateTime
   userId                Int
-  user                  User                        @relation(fields: [userId],references: [id])
+  user                  User                        @relation(fields: [userId], references: [id])
+  settlementId          String?
+  settlement            MerchantSettlement?         @relation(fields: [settlementId], references: [id])
+}
+
+// Merchant's Settlements
+model MerchantSettlement {
+  id                    String                      @id @default(cuid())
+  merchantId            Int
+  merchant              Merchant                    @relation(fields: [merchantId], references: [id])
+  amount                Int
+  status                SettlementStatus            @default(Pending)
+  payments              MerchantPayment[]
 }
 
 enum OnRampStatus {
   Success
   Failure
   Processing
+}
+
+enum SettlementStatus {
+  Pending
+  Processing
+  Completed
+  Failed
 }
