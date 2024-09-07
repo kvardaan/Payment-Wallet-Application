@@ -97,7 +97,7 @@ jobs:
               -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
               -e NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }} \
               -e CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }} \
-              -e WEBHOOK_SECRET=${{ secrets.WEBHOOK_SECRET }} \
+              -e WEBHOOK_SECRET=${{ secrets.USER_WEBHOOK_SECRET }} \
               -e BANK_WEBHOOK_API=${{ secrets.BANK_WEBHOOK_API }} \
               -e NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_URL }} \
               -e NEXT_PUBLIC_CLERK_SIGN_UP_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_UP_URL }} \
@@ -110,6 +110,14 @@ jobs:
               -p ${{ secrets.MERCHANT_APP_PORT }}:${{ secrets.MERCHANT_APP_PORT }} \
               -e PORT=${{ secrets.MERCHANT_APP_PORT }} \
               -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
+              -e NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }} \
+              -e CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }} \
+              -e WEBHOOK_SECRET=${{ secrets.MERCHANT_WEBHOOK_SECRET }} \
+              -e BANK_WEBHOOK_API=${{ secrets.BANK_WEBHOOK_API }} \
+              -e NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_URL }} \
+              -e NEXT_PUBLIC_CLERK_SIGN_UP_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_UP_URL }} \
+              -e NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL }} \
+              -e NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL }} \
               vardaankhattar/merchant-app:latest
 
             sudo docker run --restart unless-stopped -d \
