@@ -29,6 +29,10 @@ export async function POST(request: NextRequest) {
 
 	const { amount, transferToUsername } = transferData.data
 
+	const transferFrom = await prisma.user.findUnique({
+		where: { id: userId },
+	})
+
 	const transferTo =
 		(await prisma.user.findUnique({
 			where: { username: transferToUsername },
@@ -41,18 +45,18 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ error: 'User not found!' }, { status: StatusCodes.BAD_REQUEST })
 
 	// check: self-transfer
-	if (userId === transferTo?.id)
+	if (transferFrom?.username === transferTo?.username)
 		return NextResponse.json(
 			{ error: 'Self-transfers not allowed!' },
 			{ status: StatusCodes.FORBIDDEN }
 		)
 
 	// check: if the user initiating the transfer has sufficient funds or not
-	const fromUserBalance = await prisma.balance.findUnique({
+	const senderBalance = await prisma.balance.findUnique({
 		where: { userId },
 	})
 
-	if (!fromUserBalance || fromUserBalance.amount < amount * 100)
+	if (!senderBalance || senderBalance.amount < amount * 100)
 		return NextResponse.json({ error: 'Insufficient Funds!' }, { status: StatusCodes.BAD_REQUEST })
 
 	try {
@@ -103,6 +107,12 @@ export async function POST(request: NextRequest) {
 						userId,
 						timestamp: new Date(),
 					},
+				})
+
+				// update: increase the balance for the merchant receiving the payment
+				await transaction.merchantBalance.update({
+					where: { merchantId: transferToMerchant?.id },
+					data: { amount: { increment: amount * 100 } },
 				})
 
 				// create: user transfer in the DB
