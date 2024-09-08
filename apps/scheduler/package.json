@@ -1,0 +1,28 @@
+{
+	"name": "scheduler",
+	"version": "0.0.1",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "npx esbuild ./src/index.ts --bundle --platform=node --outfile=dist/index.js",
+		"start": "node ./dist/index.js",
+		"dev": "nodemon --exec \"node -r esbuild-register ./src/index.ts\" -e .ts",
+		"type-check": "tsc --noEmit"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"@repo/db": "*",
+		"@repo/typescript-config": "*",
+		"axios": "^1.7.7",
+		"dotenv": "^16.4.5",
+		"esbuild": "^0.23.1",
+		"esbuild-register": "^3.6.0",
+		"node-cron": "^3.0.3"
+	},
+	"devDependencies": {
+		"@types/axios": "^0.9.36",
+		"nodemon": "^3.1.4"
+	}
+}

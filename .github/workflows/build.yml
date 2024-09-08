@@ -44,6 +44,14 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ./apps/scheduler/Dockerfile
+          push: true
+          tags: vardaankhattar/scheduler:latest
+
+      - name: Build and Push Docker Images
+        uses: docker/build-push-action@v6
+        with:
+          context: .
           file: ./apps/merchant-app/Dockerfile
           push: true
           tags: vardaankhattar/merchant-app:latest
@@ -59,5 +67,6 @@ jobs:
       - name: Verify Pushed Images
         run: |
           docker pull vardaankhattar/user-app:latest
+          docker pull vardaankhattar/scheduler:latest
           docker pull vardaankhattar/merchant-app:latest
           docker pull vardaankhattar/bank_webhook:latest

@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server'
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-const isPublicApiRoute = createRouteMatcher(['/api/webhooks/merchants'])
+const isPublicApiRoute = createRouteMatcher([
+	'/api/webhooks/merchants',
+	'/api/merchants/settle-batch',
+])
 const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)', '/'])
 
 export default clerkMiddleware((auth, req) => {

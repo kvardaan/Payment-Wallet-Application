@@ -13,6 +13,16 @@ services:
     networks:
       - my_network
 
+  scheduler:
+    image: scheduler
+    build:
+      context: .
+      dockerfile: ./apps/scheduler/Dockerfile
+    environment:
+      - NODE_ENV=production
+    networks:
+      - my_network
+
   bank_webhook:
     image: bank_webhook
     build:

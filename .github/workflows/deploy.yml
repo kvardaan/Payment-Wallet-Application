@@ -44,6 +44,14 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ./apps/scheduler/Dockerfile
+          push: true
+          tags: vardaankhattar/scheduler:latest
+
+      - name: Build and Push Docker Images
+        uses: docker/build-push-action@v6
+        with:
+          context: .
           file: ./apps/merchant-app/Dockerfile
           push: true
           tags: vardaankhattar/merchant-app:latest
@@ -59,6 +67,7 @@ jobs:
       - name: Verify Pushed Images
         run: |
           docker pull vardaankhattar/user-app:latest
+          docker pull vardaankhattar/scheduler:latest
           docker pull vardaankhattar/merchant-app:latest
           docker pull vardaankhattar/bank_webhook:latest
 
@@ -71,14 +80,17 @@ jobs:
           script: |
             # Pull the latest images
             sudo docker pull vardaankhattar/user-app:latest
+            sudo docker pull vardaankhattar/scheduler:latest
             sudo docker pull vardaankhattar/merchant-app:latest
             sudo docker pull vardaankhattar/bank_webhook:latest
 
             sudo docker stop user-app || true
+            sudo docker stop scheduler || true
             sudo docker stop merchant-app || true
             sudo docker stop bank_webhook || true
 
             sudo docker rm user-app || true
+            sudo docker rm scheduler || true
             sudo docker rm merchant-app || true
             sudo docker rm bank_webhook || true
 
@@ -119,6 +131,12 @@ jobs:
               -e NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL }} \
               -e NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL }} \
               vardaankhattar/merchant-app:latest
+
+            sudo docker run --restart unless-stopped -d \
+              --name scheduler \
+              -e API_HOST=${{ secrets.SCHEDULER_API_HOST }} \
+              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
+              vardaankhattar/scheduler:latest
 
             sudo docker run --restart unless-stopped -d \
               --name bank_webhook \

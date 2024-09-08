@@ -7,8 +7,6 @@ export async function POST(request: NextRequest) {
 	const body = await request.json()
 	const { merchantId } = body
 
-	console.log(body, merchantId)
-
 	if (!merchantId)
 		return NextResponse.json({ error: 'Unauthorized' }, { status: StatusCodes.UNAUTHORIZED })
 
@@ -35,10 +33,18 @@ export async function POST(request: NextRequest) {
 				data: {
 					merchantId: merchantId as number,
 					amount: totalAmountToBeSettled,
-					status: 'Processing',
+					status: 'Completed',
 					payments: {
 						connect: unsettledPayments.map((payment) => ({ id: payment.id })),
 					},
+				},
+			})
+
+			// Update: Decrement Merchant's Wallet Balance
+			await transaction.merchantBalance.update({
+				where: { merchantId },
+				data: {
+					amount: { decrement: totalAmountToBeSettled },
 				},
 			})
 
@@ -51,13 +57,6 @@ export async function POST(request: NextRequest) {
 				},
 				data: {
 					settlementId: newSettlement.id,
-				},
-			})
-
-			await transaction.merchantBalance.update({
-				where: { merchantId },
-				data: {
-					amount: { decrement: totalAmountToBeSettled },
 				},
 			})
 
