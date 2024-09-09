@@ -1,19 +1,13 @@
 import prisma from '@repo/db'
 
 /**
- * Gets the unsettled payments for the day
+ * Gets the unsettled payments for the merchant
  */
-export async function getDailyPayments(merchantId: number) {
-	const date = new Date()
-	date.setHours(0, 0, 0, 0) // gets the start of the day
-
+export async function getPayments(merchantId: number) {
 	const payments = await prisma.merchantPayment.findMany({
 		where: {
 			merchantId,
 			settlementId: null,
-			timestamp: {
-				gte: date,
-			},
 		},
 	})
 
