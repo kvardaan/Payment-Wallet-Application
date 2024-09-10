@@ -27,8 +27,8 @@ export async function getUserBalance() {
 	})
 
 	return {
-		unlocked: userBalance?.amount || 0,
-		locked: userBalance?.locked || 0,
+		unlocked: (userBalance?.amount || 0) / 100,
+		locked: (userBalance?.locked || 0) / 100,
 	}
 }
 
@@ -60,7 +60,7 @@ export async function getUserOnRampTransactions() {
 
 	return onRampTransactions.map((transaction) => ({
 		provider: transaction.provider,
-		amount: transaction.amount,
+		amount: transaction.amount / 100,
 		status: transaction.status,
 		time: transaction.startTime,
 		token: transaction.token,
@@ -109,7 +109,7 @@ export async function getUserTransfers() {
 	return [
 		...userTransfers.sentTransfers.map((transfer) => ({
 			id: transfer.id,
-			amount: transfer.amount,
+			amount: transfer.amount / 100,
 			date: formatDateTime(transfer.timestamp.toLocaleString()).split(',')[0] as unknown as Date,
 			time: formatDateTime(transfer.timestamp.toLocaleString()).split(',')[1] as unknown as Date,
 			timestamp: transfer.timestamp,
@@ -119,7 +119,7 @@ export async function getUserTransfers() {
 		})),
 		...userTransfers.receivedTransfers.map((transfer) => ({
 			id: transfer.id,
-			amount: transfer.amount,
+			amount: transfer.amount / 100,
 			date: formatDateTime(transfer.timestamp.toLocaleString()).split(',')[0] as unknown as Date,
 			time: formatDateTime(transfer.timestamp.toLocaleString()).split(',')[1] as unknown as Date,
 			timestamp: transfer.timestamp,

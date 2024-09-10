@@ -26,19 +26,19 @@ export const BalanceCard = () => {
 						<TableRow className="leading-[4px]">
 							<TableCell className="flex flex-row justify-between items-center p-2 py-5">
 								<span>Unlocked Balance</span>
-								<span>₹ {balances && balances?.unlocked / 100}</span>
+								<span>₹ {balances && balances?.unlocked}</span>
 							</TableCell>
 						</TableRow>
 						<TableRow className="leading-[4px]">
 							<TableCell className="flex flex-row justify-between items-center p-2 py-5">
 								<span>Locked Balance</span>
-								<span>₹ {balances && balances?.locked / 100}</span>
+								<span>₹ {balances && balances?.locked}</span>
 							</TableCell>
 						</TableRow>
 						<TableRow className="leading-[4px]">
 							<TableCell className="flex flex-row justify-between font-semibold items-center p-2 py-5">
 								<span>Total</span>
-								<span>₹ {balances && (balances?.unlocked + balances?.locked) / 100}</span>
+								<span>₹ {balances && balances?.unlocked + balances?.locked}</span>
 							</TableCell>
 						</TableRow>
 					</TableBody>

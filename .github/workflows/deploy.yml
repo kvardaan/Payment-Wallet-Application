@@ -107,6 +107,7 @@ jobs:
               -p ${{ secrets.USER_APP_PORT }}:${{ secrets.USER_APP_PORT }} \
               -e PORT=${{ secrets.USER_APP_PORT }} \
               -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
+              -e MERCHANT_APP_ROUTE=${{ secrets.MERCHANT_APP_ROUTE }} \
               -e NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.USER_NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }} \
               -e CLERK_SECRET_KEY=${{ secrets.USER_CLERK_SECRET_KEY }} \
               -e WEBHOOK_SECRET=${{ secrets.USER_WEBHOOK_SECRET }} \

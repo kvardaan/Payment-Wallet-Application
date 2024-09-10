@@ -1,8 +1,13 @@
-import { Heading } from '@repo/ui/components'
+import { Metadata } from 'next'
 
+import { Heading } from '@repo/ui/components'
 import { BalanceCard } from '@/components/dashboard/add-money/balance-card'
 import { AddMoneyCard } from '@/components/dashboard/add-money/add-money-card'
 import { OnRampTransactionsCard } from '@/components/dashboard/add-money/on-ramp-transactions-card'
+
+export const metadata: Metadata = {
+	title: 'Add Money',
+}
 
 export default function Page() {
 	return (

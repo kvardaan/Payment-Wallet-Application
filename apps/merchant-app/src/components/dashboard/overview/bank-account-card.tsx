@@ -32,6 +32,7 @@ export const BankAccountCard = () => {
 							<TableRow>
 								<TableHead className="text-center">Bank</TableHead>
 								<TableHead className="text-center">Account Number</TableHead>
+								<TableHead className="text-center">Account Balance</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -40,6 +41,7 @@ export const BankAccountCard = () => {
 								<TableCell className="w-1/2 text-center">
 									{merchantBankAccount.accountNumber}
 								</TableCell>
+								<TableCell className="w-1/2 text-center">₹{merchantBankAccount.balance}</TableCell>
 							</TableRow>
 						</TableBody>
 					</Table>

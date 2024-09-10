@@ -40,11 +40,19 @@ export async function POST(request: NextRequest) {
 				},
 			})
 
-			// Update: Decrement Merchant's Wallet Balance
+			// Update: Credit Merchant's Wallet Balance
 			await transaction.merchantBalance.update({
 				where: { merchantId },
 				data: {
 					amount: { decrement: totalAmountToBeSettled },
+				},
+			})
+
+			// Update: Debit Merchant's Wallet Balance
+			await transaction.merchantBankAccount.update({
+				where: { merchantId },
+				data: {
+					balance: { increment: totalAmountToBeSettled },
 				},
 			})
 

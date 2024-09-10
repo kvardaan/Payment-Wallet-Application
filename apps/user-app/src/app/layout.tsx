@@ -6,7 +6,11 @@ import '@repo/ui/styles.css'
 import { cn, inter, ThemeProvider, Toaster } from '@repo/ui/components'
 
 export const metadata: Metadata = {
-	title: 'User | Payment Wallet Application',
+	title: {
+		template: '%s | Payment Wallet Application',
+		default: 'Payment Wallet Application',
+	},
+	description: 'User - Payment Wallet Application.',
 }
 
 interface RootLayoutProps {

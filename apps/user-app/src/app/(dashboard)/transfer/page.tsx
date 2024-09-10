@@ -1,5 +1,11 @@
+import { Metadata } from 'next'
+
 import { Heading } from '@repo/ui/components'
 import { TransferCard } from '@/components/dashboard/transfer/transfer-card'
+
+export const metadata: Metadata = {
+	title: 'Transfer',
+}
 
 export default function Page() {
 	return (

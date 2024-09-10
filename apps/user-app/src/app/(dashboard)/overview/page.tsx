@@ -1,3 +1,5 @@
+import { Metadata } from 'next'
+
 import { Heading } from '@repo/ui/components'
 import { AddBankAccountCard } from '@/components/dashboard/overview/add-bank-account-card'
 import { UserBankAccountsCard } from '@/components/dashboard/overview/user-bank-accounts-card'
@@ -6,6 +8,10 @@ export type BankAccount = {
 	id: number
 	accountNumber: number
 	bankName: string
+}
+
+export const metadata: Metadata = {
+	title: 'Overview',
 }
 
 export default function Page() {

@@ -27,7 +27,7 @@ export const columns: ColumnDef<Transaction>[] = [
 			const formatted = new Intl.NumberFormat('en-US', {
 				style: 'currency',
 				currency: 'INR',
-			}).format(amount / 100)
+			}).format(amount)
 			return <div className="text-center">{formatted}</div>
 		},
 	},

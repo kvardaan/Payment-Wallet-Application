@@ -34,9 +34,16 @@ const GitHub = () => {
 	)
 }
 
-const UpRightIcon = () => {
+const UpRightIcon = ({ className }: { className?: string }) => {
 	return (
-		<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<svg
+			width="16"
+			height="16"
+			viewBox="0 0 16 16"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			className={className}
+		>
 			<rect x="2" y="2" width="12" height="12" rx="3" fill="#EEEEF0" />
 			<path
 				d="M5.75 10.25L10.25 5.75M10.25 5.75H6.75M10.25 5.75V9.25"

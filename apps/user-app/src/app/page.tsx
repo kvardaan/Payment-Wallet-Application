@@ -4,6 +4,7 @@ import { getUserId } from '@/lib/user'
 import { Footer } from '@/components/footer'
 import { AppBar } from '@/components/app-bar'
 import { Hero } from '@/components/landing/hero'
+import { Message } from '@/components/landing/message'
 import { Testimonials } from '@/components/landing/testimonials'
 
 export default async function Page() {
@@ -17,6 +18,7 @@ export default async function Page() {
 			<div className="flex flex-col max-w-full overflow-hidden">
 				<Hero />
 				<Testimonials />
+				<Message />
 			</div>
 			<Footer />
 		</div>

@@ -50,6 +50,7 @@ export async function getMerchantBankAccount() {
 	return {
 		bankName: merchantBankAccount.bankName,
 		accountNumber: merchantBankAccount.accountNumber,
+		balance: merchantBankAccount.balance / 100,
 	}
 }
 
@@ -74,7 +75,7 @@ export async function getMerchantPayments() {
 
 	return merchantPayments?.map((payment) => ({
 		id: payment.id,
-		amount: payment.amount,
+		amount: payment.amount / 100,
 		date: formatDateTime(payment.timestamp.toLocaleString()).split(',')[0] as unknown as Date,
 		time: formatDateTime(payment.timestamp.toLocaleString()).split(',')[1] as unknown as Date,
 		timestamp: payment.timestamp,
