@@ -1,58 +1,70 @@
-# Turborepo Tailwind CSS starter
+# Payment Wallet Application
 
-This is an official starter Turborepo.
+A wallet built to handle transactions between people and businesses built with Next.js, Turborepo, Prisma ORM, and Docker deployed on an EC2 machine with CI/CD enabling seamless operations.
 
-## Using this example
+## Table of Contents
 
-Run the following command:
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Architecture](#architecture)
+- [CI/CD Pipeline](#cicd-pipeline)
+- [Deployment](#deployment)
 
-```sh
-npx create-turbo@latest -e with-tailwind
-```
+## Features
 
-## What's inside?
+- Auth using Clerk
+- User Application
+   - Manage bank account(s)
+   - Adding money to the wallet (on-ramp transactions) from bank account(s) via a webhook
+   - Transfer money via username to other users/ businesses (merchants)
+- Merchant Application
+   - Manage bank account
+   - Settle batch (off-ramp money to bank) manually or automatically (scheduled job every mid-night)
+- Dockerized applications for easy deployment
+- CI/CD pipeline for automated deployment
 
-This Turborepo includes the following packages/apps:
+## Technologies Used
 
-### Apps and Packages
+- Turborepo
+- Next.js
+- Express.js
+- Clerk
+- Zustand
+- Tailwind CSS
+- Shadcn UI
+- ESLint
+- Prisma ORM
+- PostgreSQL
+- Docker
+- GitHub Actions (CI/CD)
+- AWS EC2
 
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## Architecture
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+The application has two major sides -
+- User Application
+   ![User Application Architecture](/assets/user-application.png)
+- Merchant Application
+   ![Merchant Application Architecture](/assets/merchant-application.png)
 
-### Building packages/ui
+## CI/CD Pipeline
 
-This example is set up to produce compiled styles for `ui` components into the `dist` directory. The component `.tsx` files are consumed by the Next.js apps directly using `transpilePackages` in `next.config.js`. This was chosen for several reasons:
+This project uses GitHub Actions for CI/CD. The pipeline -
 
-- Make sharing one `tailwind.config.js` to apps and packages as easy as possible.
-- Make package compilation simple by only depending on the Next.js Compiler and `tailwindcss`.
-- Ensure Tailwind classes do not overwrite each other. The `ui` package uses a `ui-` prefix for it's classes.
-- Maintain clear package export boundaries.
+1. Runs build tests on every push and pull request
+2. Builds Docker images for different sub-applications
+3. Deploys to EC2 on successful builds of the main branch
 
-Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update the `tailwind.config.js` in your apps to be aware of your package locations, so it can find all usages of the `tailwindcss` class names for CSS compilation.
+## Deployment
 
-For example, in [tailwind.config.js](packages/tailwind-config/tailwind.config.js):
+The application is deployed to an AWS EC2 through the CI/CD pipeline using GitHub Actions.
 
-```js
-  content: [
-    // app content
-    `src/**/*.{js,ts,jsx,tsx}`,
-    // include packages if not transpiling
-    "../../packages/ui/*.{js,ts,jsx,tsx}",
-  ],
-```
+Additional Resources
+- [Turborepo Documentation](https://turbo.build/repo/docs)
+- [Clerk Documentation](https://clerk.com/docs)
+- [Prisma ORM Documentation](https://www.prisma.io/docs/orm)
+- [Zustand Documentation](https://zustand.docs.pmnd.rs/getting-started/introduction)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs/installation)
 
-If you choose this strategy, you can remove the `tailwindcss` and `autoprefixer` dependencies from the `ui` package.
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+> [!NOTE]  
+> Suggestions are welcomed for additional improvements to the existing structure. If you have ideas for enhancing the functionality or user experience, please feel free to open an issue or submit a pull request.
